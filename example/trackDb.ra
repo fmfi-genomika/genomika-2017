@@ -1,0 +1,2960 @@
+#	"$Id: trackDb.ra,v 1.643 2010/06/11 22:12:18 mary Exp $";
+
+include trackDb.chainNet.ra
+
+include trackDb.chainNet.primates.ra
+include trackDb.chainNet.euarchontoglires.ra
+include trackDb.chainNet.laurasiatheria.ra
+include trackDb.chainNet.afrotheria.ra
+include trackDb.chainNet.mammal.ra
+include trackDb.chainNet.birds.ra
+include trackDb.chainNet.sarcopterygii.ra
+include trackDb.chainNet.fish.ra
+include trackDb.chainNet.insects.ra
+
+include trackDb.transMap.ra
+
+include trackDb.nt.ra
+include trackDb.genbank.ra 
+
+# Root trackDb.ra file.  Files from the organism subdirectory and the database sub-sub directory
+# will be layered on.  Organism is something like 'human' and database is something
+# like 'hg18'.  See the README file in this directory for a description of the format.
+#
+
+track stsMarker
+shortLabel STS Markers
+longLabel STS Markers on Genetic (blue), FISH (green) and RH (black) Maps
+group map
+visibility dense
+altColor 128,128,255,
+type bed 5 +
+
+track stsMap
+shortLabel STS Markers
+longLabel STS Markers on Genetic (blue) and Radiation Hybrid (black) Maps
+group map
+visibility dense
+altColor 128,128,255,
+type bed 5 +
+
+track stsMapMouse
+shortLabel STS Markers
+longLabel STS Markers on Genetic Maps
+group map
+visibility dense
+altColor 128,128,255,
+type bed 5 +
+
+track fishClones
+shortLabel FISH Clones
+longLabel Clones Placed on Cytogenetic Map Using FISH
+group map
+visibility hide
+color 0,150,0,
+type bed 5 +
+
+track recombRate
+shortLabel Recomb Rate
+longLabel Recombination Rate from deCODE, Marshfield, or Genethon Maps (deCODE default)
+group map
+visibility hide
+exonArrows off
+type bed 4 +
+
+track ctgPos
+shortLabel Map Contigs
+longLabel Physical Map Contigs
+group map
+visibility hide
+color 150,0,0
+type ctgPos
+
+track gold
+shortLabel Assembly
+longLabel Assembly from Fragments
+group map
+visibility hide
+color 150,100,30
+altColor 230,170,40
+type bed 3 +
+
+track gap
+shortLabel Gap
+longLabel Gap Locations
+group map
+visibility dense
+type bed 3 +
+
+track par
+shortLabel PAR
+longLabel Pseudoautosomal Regions
+group map
+visibility hide
+color 160,0,50
+type bed 4
+chromosomes chrX,chrY
+
+track clonePos
+shortLabel Coverage
+longLabel Clone Coverage/Fragment Position
+group map
+visibility hide
+altColor 180,180,180
+type clonePos
+
+track bacEndPairs
+shortLabel BAC End Pairs
+longLabel BAC End Pairs
+group map
+visibility hide
+type bed 6 +
+color 0,0,0
+altColor 80,80,80
+exonArrows off
+
+track bacEndPairsBad
+shortLabel Incorrect BAC End Pairs
+longLabel Orphan, Short and Incorrectly Oriented BAC End Pairs
+group map
+visibility hide
+type bed 6 +
+color 0,0,0
+altColor 90,90,90
+exonArrows off
+
+track bacEndPairsLong
+shortLabel Long BAC End Pairs
+longLabel Long BAC End Pairs
+group map
+visibility hide
+type bed 6 +
+color 0,0,0
+altColor 90,90,90
+exonArrows off
+
+track traceClone
+shortLabel Clone Ends
+longLabel NCBI Trace Clones
+group map
+visibility hide
+type bed 6 +
+color 0,0,0
+altColor 80,80,80
+trackHandler bacEndPairs
+lfPslTable traceEnd
+exonArrows off
+
+searchTable traceClone
+searchType bed
+searchPriority 100
+
+track traceCloneBad
+shortLabel Clone Ends Flagged
+longLabel Flagged NCBI Trace Clones (too long/short or orphan end)
+group map
+visibility hide
+type bed 6 +
+color 0,0,0
+altColor 80,80,80
+trackHandler bacEndPairsBad
+lfPslTable traceEndBad
+exonArrows off
+
+searchTable traceCloneBad
+searchType bed
+searchPriority 100
+
+track fosEndPairs
+shortLabel Fosmid End Pairs
+longLabel Fosmid End Pairs
+group map
+visibility hide
+type bed 6 +
+color 0,0,0
+altColor 90,90,90
+exonArrows off
+
+track fosEndPairsBad
+shortLabel Bad Fosmid End Pairs
+longLabel Orphan, Short and Incorrectly Oriented Fosmid End Pairs
+group map
+visibility hide
+type bed 6 +
+color 0,0,0
+altColor 90,90,90
+exonArrows off
+
+track fosEndPairsLong
+shortLabel Long Fosmid End Pairs
+longLabel Long Fosmid End Pairs
+group map
+visibility hide
+type bed 6 +
+color 0,0,0
+altColor 90,90,90
+exonArrows off
+
+track gcPercent
+shortLabel GC Percent
+longLabel Percentage GC in 20,000-Base Windows
+group map
+visibility hide
+spectrum on
+type bed 4 +
+
+track celeraCoverage
+shortLabel WSSD Coverage
+longLabel Regions Assayed for SDD
+group map
+visibility hide
+type bed 4 .
+
+track celeraDupPositive
+shortLabel WSSD Duplication
+longLabel Sequence Identified as Duplicate by High-Depth Celera Reads
+group map
+visibility hide
+type bed 4 +
+
+track celeraOverlay
+shortLabel WSSD Overlay
+longLabel Celera WGS Assembly Overlay on Public Assembly
+group map
+visibility hide
+type bed 4 +
+
+track genomicDups
+shortLabel Duplications
+longLabel Duplications of >1000 Bases Sequence
+group map
+visibility hide
+type bed 6 +
+color 170,0,0
+altColor 160,150,0
+
+track dupes
+shortLabel Duplications
+longLabel Duplications of >98% Identity >1kb
+group map
+visibility dense
+type bed 6 .
+
+track altLocations
+type bed 4
+group map
+color 32,32,190
+shortLabel Alt Haplotypes
+longLabel Alternate Haplotypes to Reference Sequence Correspondence
+url /cgi-bin/hgTracks?position=$$
+urlLabel Corresponding position:
+
+
+track knownGene
+shortLabel UCSC Genes
+longLabel UCSC Genes (RefSeq, GenBank, tRNAs & Comparative Genomics)
+group genes
+visibility pack
+color 12,12,120
+type genePred knownGenePep knownGeneMrna
+idXref kgAlias kgID alias
+hgGene on
+hgsid on
+directUrl /cgi-bin/hgGene?hgg_gene=%s&hgg_chrom=%s&hgg_start=%d&hgg_end=%d&hgg_type=%s&db=%s
+baseColorUseCds given
+baseColorDefault genomicCodons
+defaultLinkedTables kgXref
+intronGap 12
+
+track knownAlt
+shortLabel UCSC Alt Events
+longLabel Alternative Splicing, Alternative Promoter and Similar Events in UCSC Genes
+group genes
+visibility hide
+color 90,0,150
+noScoreFilter .
+type bed 6 .
+
+track ccdsGene
+shortLabel CCDS
+longLabel Consensus CDS
+group genes
+visibility hide
+color 12,120,12
+type genePred
+baseColorUseCds given
+baseColorDefault genomicCodons
+
+track crispr
+shortLabel CRISPR
+longLabel CRISPR/Cas9 Sp. Pyog. target sites
+group genes
+visibility hide
+type bed 3
+superTrack on
+html crispr
+
+    track crisprRanges
+    shortLabel CRISPR Regions
+    longLabel Genome regions processed to find CRISPR/Cas9 target sites (exons +/- 200 bp)
+    visibility dense
+    color 110,110,110
+    type bed 3
+    parent crispr
+    html crispr
+
+    track crisprTargets
+    shortLabel CRISPR Targets
+    longLabel CRISPR/Cas9 -NGG Targets
+    visibility pack
+    type bigBed 9 +
+    itemRgb on
+    parent crispr
+    mouseOverField _mouseOver
+    scoreLabel MIT Guide Specificity Score
+    # details page is not using a mysql table but a tab-sep file
+    detailsTabUrls _offset=/gbdb/$db/crispr/crisprDetails.tab
+    url http://crispor.org/crispor.py?org=$D&pos=$S:${&pam=NGG
+    urlLabel Click here to show this guide on Crispor.org, with expression oligos, validation primers and more
+    html crispr
+
+track augustus
+shortLabel Augustus
+longLabel Augustus Gene Predictions
+group genes
+visibility hide
+color 180,0,0
+type genePred
+
+# NSCAN gene predictions from BrentLab
+#   - local trackDb must specify $informant for use in html
+#   - will need to override searchTable entry for non-chrom assemblies
+track nscanGene
+shortLabel N-SCAN
+longLabel N-SCAN Gene Predictions
+group genes
+visibility hide
+color 34,139,34
+type genePred nscanPep
+baseColorUseCds given
+baseColorDefault genomicCodons
+informant BUG: INFORMANT DESCRIPTION NOT SET IN TRACK DB FILE
+
+searchTable nscanGene
+searchType genePred
+termRegex chr[0-9a-zA-Z_]+\.([0-9]+|pasa)((\.[0-9a-z]+)?\.[0-9a-z]+)?
+searchPriority 50
+
+track rgdEst
+shortLabel RGD EST
+longLabel RGD EST
+group rna
+visibility hide
+spectrum on
+color 12,12,120
+type psl est
+url http://rgd.mcw.edu/generalSearch/RgdSearch.jsp?quickSearch=1&searchKeyword=
+
+track rgdGene
+shortLabel RGD Genes
+longLabel Rat Genome Database Curated Genes
+group genes
+visibility dense
+color 12,12,120
+type genePred
+url http://rgd.mcw.edu/generalSearch/RgdSearch.jsp?quickSearch=1&searchKeyword=
+
+track rgdSslp
+shortLabel RGD SSLP
+longLabel Rat Genome Database Simple Sequence Length Polymorphisms
+group varRep
+visibility hide
+color 12,12,120
+type bed 4 .
+url http://rgd.mcw.edu/generalSearch/RgdSearch.jsp?quickSearch=1&searchKeyword=
+
+track rgdQtl
+shortLabel RGD QTL
+longLabel $Organism Quantitative Trait Locus from RGD
+group phenDis
+visibility hide
+color 12,12,120
+type bed 4 .
+url http://rgd.mcw.edu/objectSearch/qtlReport.jsp?rgd_id=
+
+track rgdRatQtl
+shortLabel RGD Rat QTL
+longLabel $o_Organism Quantitative Trait Locus from RGD Coarsely Mapped to $Organism
+group phenDis
+visibility hide
+color 12,100,100
+type bed 4 .
+otherDb rn4
+url http://rgd.mcw.edu/objectSearch/qtlReport.jsp?rgd_id=
+
+track pubs
+shortLabel Publications
+longLabel Publications: Sequences in Scientific Articles
+group pub
+visibility dense
+color 0,0,0
+type bed 4
+compositeTrack on
+nextExonText Next Match
+prevExonText Prev Match
+pubsArticleTable hgFixed.pubsArticle
+pubsSequenceTable hgFixed.pubsSequenceAnnot
+pubsPslTrack pubsBlatPsl
+pubsMarkerTable hgFixed.pubsMarkerAnnot
+noInherit on
+
+    track pubsBlat
+    shortLabel Sequences
+    longLabel Sequences in Articles: PubmedCentral and Elsevier
+    parent pubs on
+    type bed 12 +
+    visibility dense
+    priority 2
+    configurable off
+    configureByPopup off
+
+    track pubsBlatPsl
+    shortLabel Indiv. Seq. Matches
+    longLabel Individual Sequence Matches of One Selected Article from Sequences Track
+    parent pubs off
+    type psl
+    visibility hide
+    priority 1
+    configurable off
+    configureByPopup off
+    color 0,115,70
+
+    track pubsMarkerBand
+    shortLabel Bands
+    longLabel Cytogenetic Bands in Publications
+    parent pubs off
+    visibility hide
+    priority 3
+    type bed 5
+
+    track pubsMarkerSnp
+    shortLabel SNPs
+    longLabel SNPs in Publications
+    parent pubs on
+    visibility dense
+    priority 3
+    type bed 5
+
+    track pubsMarkerGene
+    shortLabel Genes
+    longLabel Gene Symbols in Publications
+    parent pubs off
+    priority 3
+    visibility hide
+    type bed 5
+
+track pubsBingBlat
+shortLabel Web Sequences
+longLabel DNA Sequences in Web Pages Indexed by Bing.com / Microsoft Research
+group pub
+type bed 12 +
+visibility hide
+configurable off
+configureByPopup off
+nextExonText Next Match
+prevExonText Prev Match
+pubsArticleTable hgFixed.pubsBingArticle
+pubsSequenceTable hgFixed.pubsBingSequenceAnnot
+pubsPslTrack pubsBingBlatPsl
+pubsMarkerTable hgFixed.pubsBingMarkerAnnot
+
+track patSeq
+shortLabel Lens Patents
+longLabel Lens PatSeq Patent Document Sequences
+group phenDis
+visibility hide
+type bigBed 12 +
+itemRgb on
+compositeTrack on
+linkIdInName on
+mouseOverField mouseOver
+urlLabel Open Lens PatSeq Analyzer with this chromosomal range
+skipFields mouseOver,fprint
+sepFields claimGrantSeqIds
+exonNumbers off
+urls intDocIds="http://www.lens.org/lens/patent/$$" claimGrantSeqIds="http://www.lens.org/lens/patent/$$" claimSeqIds="http://www.lens.org/lens/patent/$$" grantSeqIds="http://www.lens.org/lens/patent/$$" appSeqIds="http://www.lens.org/lens/patent/$$"
+
+        track patNonBulk
+        shortLabel Non-bulk patents
+        longLabel Patent Lens Non-bulk patents
+        parent patSeq
+        type bigBed 12 +
+        visibility dense
+        priority 1
+
+        track patBulk
+        shortLabel Bulk patents
+        longLabel Patent Lens Bulk patents
+        parent patSeq
+        type bigBed 12 +
+        visibility hide
+        priority 2
+
+
+
+track genieAlt
+shortLabel AltGenie
+longLabel Genie Gene Predictions from Affymetrix
+group genes
+visibility dense
+color 125,0,150
+type genePred genieAltPep
+
+track ensGene
+shortLabel Ensembl Genes
+longLabel Ensembl Genes
+group genes
+visibility hide
+color 150,0,0
+type genePred ensPep
+
+track ensEstGene
+shortLabel Ensembl EST Genes
+longLabel Ensembl EST Gene Predictions
+group genes
+visibility hide
+color 150,0,0
+type genePred ensEstPep
+url http://www.ensembl.org/perl/geneview?db=estgene&transcript=$$
+
+track sibGene
+shortLabel SIB Genes
+longLabel Swiss Institute of Bioinformatics Gene Predictions from mRNA and ESTs
+group  genes
+visibility hide
+color 195,90,0
+type genePred
+url http://ccg.vital-it.ch/cgi-bin/tromer/tromer_quick_search_internal.pl?query_str=$$
+urlLabel SIB link:
+
+track ECgene
+shortLabel ECgene Genes
+longLabel ECgene Gene Predictions with Alt-Splicing
+group genes
+visibility hide
+color 155,0,125
+type genePred ECgenePep
+
+track ensEst
+shortLabel Ensembl ESTs
+longLabel $Organism ESTs From Ensembl
+group genes
+visibility hide
+color 175,20,125
+type genePred ensEstPep
+
+track twinscan
+shortLabel Twinscan
+longLabel Twinscan Gene Predictions Using Mouse/Human Homology
+group genes
+visibility hide
+color 0,100,100
+type genePred twinscanPep
+
+track contrastGene
+shortLabel CONTRAST
+longLabel CONTRAST Gene Predictions
+group genes
+visibility hide
+color 34,34,139
+type coloredExon
+
+searchTable contractGene
+searchType bed
+termRegex CONTRAST\..+
+searchPriority 50
+
+track sgpGene
+shortLabel SGP Genes
+longLabel SGP Gene Predictions Using $Organism/Human Homology
+group genes
+visibility hide
+color 0,90,100
+type genePred sgpPep
+
+track softberryGene
+shortLabel Fgenesh++ Genes
+longLabel Fgenesh++ Gene Predictions
+group genes
+visibility hide
+color 0,100,0
+type genePred softberryPep
+
+track geneid
+shortLabel Geneid Genes
+longLabel Geneid Gene Predictions
+group genes
+visibility hide
+color 0,90,100
+type genePred geneidPep
+
+track genscan
+shortLabel Genscan Genes
+longLabel Genscan Gene Predictions
+group genes
+visibility hide
+color 170,100,0
+type genePred genscanPep
+
+track rnaGene
+shortLabel RNA Genes
+longLabel Non-coding RNA Genes (dark) and Pseudogenes (light)
+group genes
+visibility hide
+color 170,80,0
+altColor 230,180,130
+type bed 6 +
+
+track superfamily
+shortLabel Superfamily
+longLabel Superfamily/SCOP: Proteins Having Homologs with Known Structure/Function
+group genes
+visibility hide
+color 150,0,0
+type bed 4 +
+url http://supfam.mrc-lmb.cam.ac.uk/SUPERFAMILY/cgi-bin/gene.cgi?genome=
+
+track exonWalk
+shortLabel ExonWalk
+longLabel ExonWalk Alt-Splicing Transcripts
+color 23,58,58
+group genes
+visibility hide
+type genePred
+
+track exonWalk2
+shortLabel ExonWalk2
+longLabel ExonWalk Alt-Splicing Transcripts - take 2
+color 23,58,58
+group genes
+visibility hide
+type genePred
+
+track exonWalkRna
+shortLabel ExonWalkRna
+longLabel ExonWalk Alt-Splicing Transcripts mRNA Only, No Orthology
+color 23,58,58
+group genes
+visibility hide
+type genePred
+
+track exonWalkRnaNoCds
+shortLabel ExonWalkRnaNoCds
+longLabel Exonwalk on RNA Only, No Orthology, No CDS Mapping
+color 23,58,58
+group genes
+visibility hide
+type bed 12
+
+track interPro
+shortLabel InterPro
+longLabel InterPro Domains
+group genes
+visibility hide
+color 12,12,120
+type bed 4
+
+track protBlat
+shortLabel Protein BLAT
+longLabel Protein Blatted Against Genome
+group genes
+visibility hide
+color 0,100,0
+altColor 255,240,200
+type psl protein
+
+track tigrGeneIndex
+shortLabel TIGR Gene Index
+longLabel Alignment of TIGR Gene Index TCs Against the $Organism Genome
+group rna
+visibility hide
+color 100,0,0
+type genePred
+autoTranslate 0
+url http://www.tigr.org/tigr-scripts/tgi/tc_report.pl?$$
+
+track uniGene_2
+shortLabel UniGene
+longLabel UniGene Alignments and SAGE Info
+group rna
+visibility hide
+spectrum on
+type bed 12 .
+
+track uniGene_3
+shortLabel UniGene
+longLabel UniGene Alignments
+group rna
+visibility hide
+url http://www.ncbi.nlm.nih.gov/UniGene/clust.cgi?ORG=Hs&CID=
+spectrum on
+type psl
+
+track uniGene
+shortLabel UniGene
+longLabel UniGene Alignments and SAGE Info
+group rna
+visibility hide
+type psl .
+
+track rnaCluster
+shortLabel Gene Bounds
+longLabel Gene Boundaries as Defined by RNA and Spliced EST Clusters
+group rna
+visibility hide
+color 200,0,50
+type bed 12 .
+exonNumbers off
+
+track genieBounds
+shortLabel Clone Bounds
+longLabel Clone Boundaries from EST Mate Pairs
+group rna
+visibility hide
+color 178,34,34
+type bed 9 .
+
+track altGraph
+shortLabel AltGraph
+longLabel AltGraph
+group rna
+visibility hide
+type psl .
+
+track sibTxGraph
+shortLabel SIB Alt-Splicing
+longLabel Alternative Splicing Graph from Swiss Institute of Bioinformatics
+group rna
+visibility hide
+type altGraphX
+url http://ccg.vital-it.ch/cgi-bin/tromer/tromergraph2draw.pl?species=H.+sapiens&tromer=$$
+urlLabel SIB link:
+idInUrlSql select name from sibTxGraph where id=%s
+
+track sibAltEvents
+shortLabel SIB Alt Events
+longLabel Alt-Splicing, Alternative Promoters, Alternative Poly-A etc from SIB
+group rna
+visibility hide
+type bed 6 .
+
+track cgapSage
+shortLabel CGAP SAGE
+longLabel CGAP Long SAGE
+group rna
+visibility hide
+type bed 8 +
+
+track miRNA
+shortLabel miRNA
+longLabel MicroRNAs from miRBase
+group genes
+visibility hide
+useScore 1
+color 255,64,64
+type bed 8 .
+url http://microrna.sanger.ac.uk/cgi-bin/sequences/mirna_entry.pl?id=$$
+urlLabel miRBase:
+
+track allenBrainAli
+shortLabel Allen Brain
+longLabel Allen Brain Atlas Probes
+group regulation
+visibility hide
+color 50,0,100
+type psl .
+
+track cpgIsland
+shortLabel CpG Islands
+longLabel CpG Islands (Islands < 300 Bases are Light Green)
+group regulation
+visibility hide
+color 0,100,0
+altColor 128,228,128
+type bed 4 +
+
+track cpgIslandSuper
+superTrack on
+shortLabel CpG Islands
+longLabel CpG Islands (Islands < 300 Bases are Light Green)
+group regulation
+visibility show
+color 0,100,0
+altColor 128,228,128
+type bed 4 +
+html cpgIslandSuper
+
+    track cpgIslandExt
+    superTrack cpgIslandSuper pack
+    shortLabel CpG Islands
+    longLabel CpG Islands (Islands < 300 Bases are Light Green)
+    priority 1
+    html cpgIslandSuper
+
+    track cpgIslandExtUnmasked
+    superTrack cpgIslandSuper hide
+    shortLabel Unmasked CpG
+    longLabel CpG Islands on All Sequence (Islands < 300 Bases are Light Green)
+    priority 2
+    html cpgIslandSuper
+
+track cpgIslandGgfAndyMasked
+shortLabel CpG Islands (AL)
+longLabel CpG Islands - Andy Law, Masked Sequence (Islands < 300 Bases are Light Green)
+group regulation
+visibility hide
+color 0,100,0
+altColor 128,228,128
+type bed 4 +
+
+track cpgIslandGgfAndy
+shortLabel CpG Islands (AL)
+longLabel CpG Islands - Andy Law (Islands < 300 Bases are Light Green)
+group regulation
+visibility hide
+color 0,100,0
+altColor 128,228,128
+type bed 4 +
+
+track firstEF
+shortLabel FirstEF
+longLabel FirstEF: First-Exon and Promoter Prediction
+group regulation
+visibility hide
+spectrum on
+type bed 6 .
+scoreMin 500
+scoreMax 1000
+url http://rulai.cshl.org/tools/FirstEF/Readme/README.html
+
+track eponine
+shortLabel Eponine TSS
+longLabel Eponine Predicted Transcription Start Sites
+group regulation
+visibility hide
+color 0,100,100
+type bed 4 +
+
+track nibbImageProbes
+shortLabel NIBB Frog Images
+longLabel Xenopus Laevis In Situ mRNA Probes from NIBB
+group regulation
+visibility hide
+color 50,0,100
+type psl xeno
+
+track esRegGeneToMotif
+shortLabel Reg. Module
+longLabel Eran Segal Regulatory Module
+group regulation
+visibility dense
+spectrum on
+noScoreFilter .
+type bed 6 +
+exonArrows off
+
+track oreganno
+shortLabel ORegAnno
+longLabel Regulatory elements from ORegAnno
+group regulation
+visibility hide
+color 102,102,0
+type bed 4 +
+
+track rosetta
+shortLabel Rosetta
+longLabel Rosetta Experimental Confirmation of Chr22 Exons
+group regulation
+visibility hide
+chromosomes chr22,
+type bed 15 +
+
+track exoFish
+shortLabel Exofish Ecores
+longLabel Exofish Tetraodon/Human Evolutionarily Conserved Regions
+group compGeno
+visibility dense
+color 0,60,120
+altColor 200,220,255
+spectrum on
+type bed 5 .
+
+track blatFish
+shortLabel Tetraodon Blat
+longLabel Tetraodon nigroviridis Translated Blat Alignments
+group compGeno
+visibility dense
+color 0,60,120
+altColor 200,220,255
+spectrum on
+type psl xeno
+
+track blatFugu
+shortLabel Fugu Blat
+longLabel Takifugu rubripes Translated Blat Alignments
+group compGeno
+visibility hide
+color 0,60,120
+altColor 200,220,255
+spectrum on
+type psl xeno
+
+track blatFr1
+shortLabel Fugu Blat
+longLabel $o_Organism ($o_date) Translated Blat Alignments
+group compGeno
+visibility hide
+color 0,60,120
+altColor 200,220,255
+spectrum on
+type psl xeno fr1
+otherDb fr1
+colorChromDefault off
+
+track blatCi1
+shortLabel Squirt Blat
+longLabel Ciona intestinalis Translated Blat Alignments
+group compGeno
+visibility hide
+color 0,60,120
+altColor 200,220,255
+spectrum on
+type psl xeno
+
+track blatTetra
+shortLabel Tetra Blat
+longLabel Tetraodon nigroviridis Translated Blat Alignments
+group compGeno
+visibility dense
+color 0,60,120
+altColor 200,220,255
+spectrum on
+type psl xeno
+
+track mouseSyn
+shortLabel NCBI Synteny
+longLabel Corresponding Chromosome in Mouse (NCBI)
+group compGeno
+visibility hide
+color 120,70,30
+altColor 0,0,0
+type bed 4 +
+
+shortLabel Rat Synteny
+longLabel Human/Rat Synteny Using Blastz Single Coverage (100,000-base window)
+group compGeno
+visibility hide
+color 0,100,0
+altColor 255,240,200
+type bed 4 .
+
+track syntenyRat
+shortLabel Rat Synteny
+longLabel $Organism/Rat Synteny Using Blastz Single Coverage (100k window)
+group compGeno
+visibility hide
+color 0,100,0
+altColor 255,240,200
+type bed 4 +
+
+# Affy Exon supertrack
+        track affyAllExonSuper
+        superTrack on
+        shortLabel Affy Exon
+        longLabel Affymetrix All Exon Microarrays
+        group regulation
+
+track affyExonTissues
+shortLabel Affy Exon Tissues
+longLabel Affymetrix Exon Array 1.0: Normal Tissues
+superTrack affyAllExonSuper dense
+group regulation
+visibility full
+type expRatio
+expScale 3.0
+expStep 0.5
+expTable affyExonTissuesExps
+groupings affyExonTissuesGroups
+
+track affyAllExonProbes
+shortLabel Affy Exon Probes
+longLabel Affymetrix Exon Array 1.0: Probesets
+superTrack affyAllExonSuper dense
+group regulation
+visibility pack
+spectrum on
+useScore 1
+exonArrows on
+type bed 6 .
+
+track snp148Common
+shortLabel Common SNPs(148)
+longLabel Simple Nucleotide Polymorphisms (dbSNP 148) Found in >= 1% of Samples
+group varRep
+visibility dense
+url http://www.ncbi.nlm.nih.gov/SNP/snp_ref.cgi?type=rs&rs=$$
+urlLabel dbSNP:
+snpSeq snp148Seq
+snpExceptionDesc snp148ExceptionDesc
+defaultGeneTracks knownGene
+maxWindowToDraw 10000000
+type bed 6 +
+trackHandler snp125
+codingAnnotations snp148CodingDbSnp,
+
+track snp148Flagged
+shortLabel Flagged SNPs(148)
+longLabel Simple Nucleotide Polymorphisms (dbSNP 148) Flagged by dbSNP as Clinically Assoc
+group varRep
+visibility hide
+url http://www.ncbi.nlm.nih.gov/SNP/snp_ref.cgi?type=rs&rs=$$
+urlLabel dbSNP: 
+snpSeq snp148Seq
+snpExceptionDesc snp148ExceptionDesc
+defaultGeneTracks knownGene
+type bed 6 +
+trackHandler snp125
+codingAnnotations snp148CodingDbSnp,
+
+track snp148Mult
+shortLabel Mult. SNPs(148)
+longLabel Simple Nucleotide Polymorphisms (dbSNP 148) That Map to Multiple Genomic Loci
+group varRep
+visibility hide
+url http://www.ncbi.nlm.nih.gov/SNP/snp_ref.cgi?type=rs&rs=$$
+urlLabel dbSNP:
+snpSeq snp148Seq
+snpExceptionDesc snp148ExceptionDesc
+defaultGeneTracks knownGene
+defaultMaxWeight 3
+maxWindowToDraw 10000000
+type bed 6 +
+trackHandler snp125
+codingAnnotations snp148CodingDbSnp,
+
+track snp148
+shortLabel All SNPs(148)
+longLabel Simple Nucleotide Polymorphisms (dbSNP 148)
+group varRep
+visibility hide
+url http://www.ncbi.nlm.nih.gov/SNP/snp_ref.cgi?type=rs&rs=$$
+urlLabel dbSNP:
+defaultGeneTracks knownGene
+maxWindowToDraw 10000000
+type bed 6 +
+trackHandler snp125
+codingAnnotations snp148CodingDbSnp,
+
+track snp147Common
+shortLabel Common SNPs(147)
+longLabel Simple Nucleotide Polymorphisms (dbSNP 147) Found in >= 1% of Samples
+group varRep
+visibility dense
+url http://www.ncbi.nlm.nih.gov/SNP/snp_ref.cgi?type=rs&rs=$$
+urlLabel dbSNP:
+snpSeq snp147Seq
+snpExceptionDesc snp147ExceptionDesc
+defaultGeneTracks knownGene
+maxWindowToDraw 10000000
+type bed 6 +
+trackHandler snp125
+codingAnnotations snp147CodingDbSnp,
+
+track snp147Flagged
+shortLabel Flagged SNPs(147)
+longLabel Simple Nucleotide Polymorphisms (dbSNP 147) Flagged by dbSNP as Clinically Assoc
+group varRep
+visibility hide
+url http://www.ncbi.nlm.nih.gov/SNP/snp_ref.cgi?type=rs&rs=$$
+urlLabel dbSNP: 
+snpSeq snp147Seq
+snpExceptionDesc snp147ExceptionDesc
+defaultGeneTracks knownGene
+type bed 6 +
+trackHandler snp125
+codingAnnotations snp147CodingDbSnp,
+
+track snp147Mult
+shortLabel Mult. SNPs(147)
+longLabel Simple Nucleotide Polymorphisms (dbSNP 147) That Map to Multiple Genomic Loci
+group varRep
+visibility hide
+url http://www.ncbi.nlm.nih.gov/SNP/snp_ref.cgi?type=rs&rs=$$
+urlLabel dbSNP:
+snpSeq snp147Seq
+snpExceptionDesc snp147ExceptionDesc
+defaultGeneTracks knownGene
+defaultMaxWeight 3
+maxWindowToDraw 10000000
+type bed 6 +
+trackHandler snp125
+codingAnnotations snp147CodingDbSnp,
+
+track snp147
+shortLabel All SNPs(147)
+longLabel Simple Nucleotide Polymorphisms (dbSNP 147)
+group varRep
+visibility hide
+url http://www.ncbi.nlm.nih.gov/SNP/snp_ref.cgi?type=rs&rs=$$
+urlLabel dbSNP:
+defaultGeneTracks knownGene
+maxWindowToDraw 10000000
+type bed 6 +
+trackHandler snp125
+codingAnnotations snp147CodingDbSnp,
+
+track snp139Common
+shortLabel Common SNPs(139)
+longLabel Simple Nucleotide Polymorphisms (dbSNP 139) Found in >= 1% of Samples
+group varRep
+visibility dense
+url http://www.ncbi.nlm.nih.gov/SNP/snp_ref.cgi?type=rs&rs=$$
+urlLabel dbSNP:
+snpSeq snp139Seq
+snpExceptionDesc snp139ExceptionDesc
+defaultGeneTracks knownGene
+maxWindowToDraw 10000000
+type bed 6 +
+codingAnnotations snp139CodingDbSnp,
+
+track snp139Mult
+shortLabel Mult. SNPs(139)
+longLabel Simple Nucleotide Polymorphisms (dbSNP 139) That Map to Multiple Genomic Loci
+group varRep
+visibility hide
+url http://www.ncbi.nlm.nih.gov/SNP/snp_ref.cgi?type=rs&rs=$$
+urlLabel dbSNP:
+snpSeq snp139Seq
+snpExceptionDesc snp139ExceptionDesc
+defaultGeneTracks knownGene
+defaultMaxWeight 3
+maxWindowToDraw 10000000
+type bed 6 +
+codingAnnotations snp139CodingDbSnp,
+
+track snp139
+shortLabel All SNPs(139)
+longLabel Simple Nucleotide Polymorphisms (dbSNP 139)
+group varRep
+visibility hide
+url http://www.ncbi.nlm.nih.gov/SNP/snp_ref.cgi?type=rs&rs=$$
+urlLabel dbSNP:
+defaultGeneTracks knownGene
+maxWindowToDraw 10000000
+type bed 6 +
+codingAnnotations snp139CodingDbSnp,
+
+track snp138Common
+shortLabel Common SNPs(138)
+longLabel Simple Nucleotide Polymorphisms (dbSNP 138) Found in >= 1% of Samples
+group varRep
+visibility dense
+url http://www.ncbi.nlm.nih.gov/SNP/snp_ref.cgi?type=rs&rs=$$
+urlLabel dbSNP:
+snpSeq snp138Seq
+snpExceptionDesc snp138ExceptionDesc
+defaultGeneTracks knownGene
+maxWindowToDraw 10000000
+type bed 6 +
+codingAnnotations snp138CodingDbSnp,
+
+track snp138Mult
+shortLabel Mult. SNPs(138)
+longLabel Simple Nucleotide Polymorphisms (dbSNP 138) That Map to Multiple Genomic Loci
+group varRep
+visibility hide
+url http://www.ncbi.nlm.nih.gov/SNP/snp_ref.cgi?type=rs&rs=$$
+urlLabel dbSNP:
+snpSeq snp138Seq
+snpExceptionDesc snp138ExceptionDesc
+defaultGeneTracks knownGene
+defaultMaxWeight 3
+maxWindowToDraw 10000000
+type bed 6 +
+codingAnnotations snp138CodingDbSnp,
+
+track snp138
+shortLabel All SNPs(138)
+longLabel Simple Nucleotide Polymorphisms (dbSNP 138)
+group varRep
+visibility hide
+url http://www.ncbi.nlm.nih.gov/SNP/snp_ref.cgi?type=rs&rs=$$
+urlLabel dbSNP:
+defaultGeneTracks knownGene
+maxWindowToDraw 10000000
+type bed 6 +
+codingAnnotations snp138CodingDbSnp,
+
+track snp137Common
+shortLabel Common SNPs(137)
+longLabel Simple Nucleotide Polymorphisms (dbSNP 137) Found in >= 1% of Samples
+group varRep
+visibility hide
+url http://www.ncbi.nlm.nih.gov/SNP/snp_ref.cgi?type=rs&rs=$$
+urlLabel dbSNP:
+snpSeq snp137Seq
+snpExceptionDesc snp137ExceptionDesc
+defaultGeneTracks knownGene
+maxWindowToDraw 10000000
+type bed 6 +
+codingAnnotations snp137CodingDbSnp,
+# Need to request new tag
+#codingAnnoLabel_snp137CodingDbSnp dbSNP
+
+track snp137Mult
+shortLabel Mult. SNPs(137)
+longLabel Simple Nucleotide Polymorphisms (dbSNP 137) That Map to Multiple Genomic Loci
+group varRep
+visibility hide
+url http://www.ncbi.nlm.nih.gov/SNP/snp_ref.cgi?type=rs&rs=$$
+urlLabel dbSNP:
+snpSeq snp137Seq
+snpExceptionDesc snp137ExceptionDesc
+defaultGeneTracks knownGene
+defaultMaxWeight 3
+maxWindowToDraw 10000000
+type bed 6 +
+codingAnnotations snp137CodingDbSnp,
+# Need to request new tag
+#codingAnnoLabel_snp137CodingDbSnp dbSNP
+
+track snp137
+shortLabel All SNPs(137)
+longLabel Simple Nucleotide Polymorphisms (dbSNP 137)
+group varRep
+visibility hide
+url http://www.ncbi.nlm.nih.gov/SNP/snp_ref.cgi?type=rs&rs=$$
+urlLabel dbSNP:
+defaultGeneTracks knownGene
+maxWindowToDraw 10000000
+type bed 6 +
+codingAnnotations snp137CodingDbSnp,
+# Need to request new tag
+#codingAnnoLabel_snp137CodingDbSnp dbSNP
+
+track snp135Common
+shortLabel Common SNPs(135)
+longLabel Simple Nucleotide Polymorphisms (dbSNP 135) Found in >= 1% of Samples
+group varRep
+visibility hide
+url http://www.ncbi.nlm.nih.gov/SNP/snp_ref.cgi?type=rs&rs=$$
+urlLabel dbSNP:
+snpSeq snp135Seq
+snpExceptionDesc snp135ExceptionDesc
+defaultGeneTracks knownGene
+maxWindowToDraw 10000000
+type bed 6 +
+
+track snp135Flagged
+shortLabel Flagged SNPs(135)
+longLabel Simple Nucleotide Polymorphisms (dbSNP 135) Flagged by dbSNP as Clinically Assoc
+group varRep
+visibility hide
+url http://www.ncbi.nlm.nih.gov/SNP/snp_ref.cgi?type=rs&rs=$$
+urlLabel dbSNP:
+snpSeq snp135Seq
+snpExceptionDesc snp135ExceptionDesc
+defaultGeneTracks knownGene
+type bed 6 +
+
+track snp135Mult
+shortLabel Mult. SNPs(135)
+longLabel Simple Nucleotide Polymorphisms (dbSNP 135) That Map to Multiple Genomic Loci
+group varRep
+visibility hide
+url http://www.ncbi.nlm.nih.gov/SNP/snp_ref.cgi?type=rs&rs=$$
+urlLabel dbSNP:
+snpSeq snp135Seq
+snpExceptionDesc snp135ExceptionDesc
+defaultGeneTracks knownGene
+defaultMaxWeight 3
+maxWindowToDraw 10000000
+type bed 6 +
+
+track snp135
+shortLabel All SNPs(135)
+longLabel Simple Nucleotide Polymorphisms (dbSNP 135)
+group varRep
+visibility hide
+url http://www.ncbi.nlm.nih.gov/SNP/snp_ref.cgi?type=rs&rs=$$
+urlLabel dbSNP:
+defaultGeneTracks knownGene
+maxWindowToDraw 10000000
+type bed 6 +
+
+
+track snp132Common
+shortLabel Common SNPs(132)
+longLabel Simple Nucleotide Polymorphisms (dbSNP 132) Found in >= 1% of Samples
+group varRep
+visibility hide
+url http://www.ncbi.nlm.nih.gov/SNP/snp_ref.cgi?type=rs&rs=$$
+urlLabel dbSNP:
+snpSeq snp132Seq
+snpExceptionDesc snp132ExceptionDesc
+defaultGeneTracks knownGene
+maxWindowToDraw 10000000
+type bed 6 +
+
+track snp132Flagged
+shortLabel Flagged SNPs(132)
+longLabel Simple Nucleotide Polymorphisms (dbSNP 132) Flagged by dbSNP as Clinically Assoc
+group varRep
+visibility hide
+url http://www.ncbi.nlm.nih.gov/SNP/snp_ref.cgi?type=rs&rs=$$
+urlLabel dbSNP:
+snpSeq snp132Seq
+snpExceptionDesc snp132ExceptionDesc
+defaultGeneTracks knownGene
+type bed 6 +
+
+track snp132Mult
+shortLabel Mult. SNPs(132)
+longLabel Simple Nucleotide Polymorphisms (dbSNP 132) That Map to Multiple Genomic Loci
+group varRep
+visibility hide
+url http://www.ncbi.nlm.nih.gov/SNP/snp_ref.cgi?type=rs&rs=$$
+urlLabel dbSNP:
+snpSeq snp132Seq
+snpExceptionDesc snp132ExceptionDesc
+defaultGeneTracks knownGene
+defaultMaxWeight 3
+maxWindowToDraw 10000000
+type bed 6 +
+
+track snp132
+shortLabel All SNPs(132)
+longLabel Simple Nucleotide Polymorphisms (dbSNP 132)
+group varRep
+visibility hide
+url http://www.ncbi.nlm.nih.gov/SNP/snp_ref.cgi?type=rs&rs=$$
+urlLabel dbSNP:
+defaultGeneTracks knownGene
+maxWindowToDraw 10000000
+type bed 6 +
+
+track snp131
+shortLabel SNPs (131)
+longLabel Simple Nucleotide Polymorphisms (dbSNP build 131)
+group varRep
+visibility hide
+url http://www.ncbi.nlm.nih.gov/SNP/snp_ref.cgi?type=rs&rs=$$
+urlLabel dbSNP:
+defaultGeneTracks knownGene
+maxWindowToDraw 10000000
+type bed 6 +
+
+track snp130
+shortLabel SNPs (130)
+longLabel Simple Nucleotide Polymorphisms (dbSNP build 130)
+group varRep
+visibility dense
+url http://www.ncbi.nlm.nih.gov/SNP/snp_ref.cgi?type=rs&rs=$$
+urlLabel dbSNP:
+defaultGeneTracks knownGene
+maxWindowToDraw 10000000
+type bed 6 +
+
+track snp129
+shortLabel SNPs (129)
+longLabel Simple Nucleotide Polymorphisms (dbSNP build 129)
+group varRep
+visibility dense
+url http://www.ncbi.nlm.nih.gov/SNP/snp_ref.cgi?type=rs&rs=$$
+urlLabel dbSNP:
+defaultGeneTracks knownGene
+maxWindowToDraw 10000000
+type bed 6 +
+
+track snp128
+shortLabel SNPs (128)
+longLabel Simple Nucleotide Polymorphisms (dbSNP build 128)
+group varRep
+visibility dense
+url http://www.ncbi.nlm.nih.gov/SNP/snp_ref.cgi?type=rs&rs=$$
+urlLabel dbSNP:
+maxWindowToDraw 10000000
+type bed 6 +
+
+track snp127
+shortLabel SNPs (127)
+longLabel Simple Nucleotide Polymorphisms (dbSNP build 127)
+group varRep
+visibility dense
+url http://www.ncbi.nlm.nih.gov/SNP/snp_ref.cgi?type=rs&rs=$$
+urlLabel dbSNP:
+maxWindowToDraw 10000000
+type bed 6 +
+
+track snp126
+shortLabel SNPs (126)
+longLabel Simple Nucleotide Polymorphisms (dbSNP build 126)
+group varRep
+visibility dense
+url http://www.ncbi.nlm.nih.gov/SNP/snp_ref.cgi?type=rs&rs=$$
+urlLabel dbSNP:
+maxWindowToDraw 10000000
+type bed 6 +
+
+track snp125
+shortLabel SNPs
+longLabel Simple Nucleotide Polymorphisms (dbSNP build 125)
+group varRep
+visibility dense
+url http://www.ncbi.nlm.nih.gov/SNP/snp_ref.cgi?type=rs&rs=$$
+urlLabel dbSNP:
+maxWindowToDraw 10000000
+type bed 6 +
+
+track snp
+shortLabel SNPs
+longLabel Simple Nucleotide Polymorphisms (SNPs)
+group varRep
+visibility dense
+type bed 6 +
+
+track snpMap
+shortLabel SNPs
+longLabel Simple Nucleotide Polymorphisms (SNPs)
+group varRep
+visibility hide
+type bed 4 .
+
+track genomicSuperDups
+shortLabel Segmental Dups
+longLabel Duplications of >1000 Bases of Non-RepeatMasked Sequence
+group varRep
+visibility hide
+type bed 6 +
+noScoreFilter .
+
+track rmsk
+shortLabel RepeatMasker
+longLabel Repeating Elements by RepeatMasker
+group varRep
+visibility dense
+spectrum on
+type rmsk
+maxWindowToDraw 10000000
+canPack off
+
+track nestedRepeats
+shortLabel Interrupted Rpts
+longLabel Fragments of Interrupted Repeats Joined by RepeatMasker ID
+group varRep
+visibility hide
+useScore 1
+type bed 12 +
+exonNumbers off
+
+track rmskUpdate
+shortLabel RM update
+longLabel Updated Repeating Elements by RepeatMasker
+group x
+visibility hide
+spectrum on
+type rmsk
+maxWindowToDraw 10000000
+canPack off
+
+track nestedRepeatsUpdate
+shortLabel Update Intrptd Rpts
+longLabel Update Fragments of Interrupted Repeats Joined by RepeatMasker ID
+group x
+visibility hide
+useScore 1
+type bed 12 +
+
+track rmskCensor
+shortLabel CENSOR Repeats
+longLabel Repeating Elements by CENSOR and Repbase 11.6 (Giri Institute)
+group varRep
+visibility hide
+spectrum on
+type rmsk
+canPack off
+
+track rmskRM327
+shortLabel RepMask 3.2.7
+longLabel Repeating Elements by RepeatMasker version 3.2.7
+group varRep
+visibility hide
+spectrum on
+type rmsk
+canPack off
+
+track nestedRepeatsRM327
+shortLabel Intr Rpts 3.2.7
+longLabel Fragments of Interrupted Repeats Joined by RepeatMasker ID (RM version 3.2.7)
+group varRep
+visibility hide
+useScore 1
+type bed 12 +
+
+include joinedRmskComposite.ra alpha
+include joinedRmsk.ra beta,public
+
+track windowmasker
+shortLabel WindowMasker
+longLabel Genomic Intervals Masked by WindowMasker
+group varRep
+visibility hide
+type bed 3
+
+track windowmaskerSdust
+shortLabel WM + SDust
+longLabel Genomic Intervals Masked by WindowMasker + SDust
+group varRep
+visibility hide
+type bed 3
+
+track simpleRepeat
+shortLabel Simple Repeats
+longLabel Simple Tandem Repeats by TRF
+group varRep
+visibility hide
+type bed 4 +
+
+track microsat
+shortLabel Microsatellite
+longLabel Microsatellites - Di-nucleotide and Tri-nucleotide Repeats
+group varRep
+visibility hide
+type bed 4
+
+track ancientR
+shortLabel Ancient Repeats
+longLabel Human/Mouse Ancient Repeats
+group x
+visibility hide
+spectrum on
+type bed 12 .
+
+track quality
+shortLabel Quality Scores
+longLabel $Organism Sequencing Quality Scores
+group map
+visibility hide
+autoScale Off
+maxHeightPixels 128:36:16
+graphTypeDefault Bar
+windowingFunction Mean
+gridDefault OFF
+color 0,128,255
+altColor 255,128,0
+spanList 1,1024
+type wig 0 100
+
+# when quality is a bigWig file
+track qualityBw
+shortLabel Quality Scores
+longLabel $Organism Sequencing Quality Scores
+group map
+visibility hide
+autoScale Off
+maxHeightPixels 128:36:16
+graphTypeDefault Bar
+windowingFunction Mean
+gridDefault OFF
+color 0,128,255
+altColor 255,128,0
+type bigWig 0 100
+html quality
+
+track gc5Base
+shortLabel GC Percent
+longLabel GC Percent in 5-Base Windows
+group map
+visibility hide
+autoScale Off
+maxHeightPixels 128:36:16
+graphTypeDefault Bar
+gridDefault OFF
+windowingFunction Mean
+color 0,0,0
+altColor 128,128,128
+viewLimits 30:70
+spanList 5
+type wig 0 100
+
+# when gc5Base is a bigWig file
+track gc5BaseBw
+shortLabel GC Percent
+longLabel GC Percent in 5-Base Windows
+group map
+visibility hide
+autoScale Off
+maxHeightPixels 128:36:16
+graphTypeDefault Bar
+gridDefault OFF
+windowingFunction Mean
+color 0,0,0
+altColor 128,128,128
+viewLimits 30:70
+type bigWig 0 100
+html gc5Base
+
+track ensemblGeneScaffold
+shortLabel Ensembl Assembly
+longLabel Ensembl Gene Scaffold Assembly
+group map
+visibility hide
+color 0,0,0
+useScore 1
+type bed 6 +
+
+searchTable ensemblGeneScaffold
+searchMethod prefix
+searchType bed
+shortCircuit 1
+termRegex GS_[0-9]+(\.[0-9]+)?
+searchPriority 18
+
+
+track blatHg16KG
+shortLabel Human knownGene BLAT
+longLabel Human knownGene BLAT
+group compGeno
+visibility hide
+colorChromDefault off
+type psl protein
+
+track blastDm2FB
+shortLabel D. mel. Proteins (dm2)
+longLabel D. melanogaster Proteins (dm2) Mapped by Chained tBLASTn
+group genes
+visibility dense
+colorChromDefault off
+type psl protein
+pred dm2.blastFBPep01
+blastRef dm2.blastFBRef01
+url http://flybase.bio.indiana.edu/.bin/fbidq.html?
+
+track blastDm1FB
+shortLabel D. mel. Proteins
+longLabel D. melanogaster Proteins (dm1) Mapped by Chained tBLASTn
+group genes
+visibility dense
+colorChromDefault off
+type psl protein
+pred dm1.blastFBPep00
+blastRef dm1.blastFBRef00
+url http://flybase.bio.indiana.edu/.bin/fbidq.html?
+
+track blastHg16KG
+shortLabel Human Proteins
+longLabel Human Proteins (hg16) Mapped by Chained tBLASTn
+group genes
+visibility hide
+colorChromDefault off
+type psl protein
+pred hg16.blastKGPep00
+blastRef hg16.blastKGRef00
+
+track chainDm1
+release beta,public
+shortLabel D. mel. Chain
+longLabel $o_Organism ($o_date) Chained Alignments
+group compGeno
+priority 133
+visibility hide
+color 100,50,0
+altColor 255,240,200
+spectrum on
+type chain dm1
+otherDb dm1
+
+track netDm1
+release beta,public
+shortLabel D. mel. Net
+longLabel $o_Organism ($o_date) Alignment Net
+group compGeno
+priority 134
+visibility dense
+spectrum on
+type netAlign dm1 chainDm1
+otherDb dm1
+
+track chainDm1
+release alpha
+shortLabel (dm1) D. mel. Chain
+longLabel $o_Organism ($o_date) Chained Alignments
+group compGeno
+priority 133.91
+visibility hide
+color 100,50,0
+altColor 255,240,200
+spectrum on
+type chain dm1
+otherDb dm1
+
+track netDm1
+release alpha
+shortLabel (dm1) D. mel. Net
+longLabel $o_Organism ($o_date) Alignment Net
+group compGeno
+priority 133.92
+visibility dense
+spectrum on
+type netAlign dm1 chainDm1
+otherDb dm1
+
+track chainDm2
+shortLabel D. mel. Chain
+longLabel $o_Organism ($o_date) Chained Alignments
+group compGeno
+priority 133.81
+visibility hide
+color 100,50,0
+altColor 255,240,200
+spectrum on
+type chain dm2
+otherDb dm2
+
+track netDm2
+shortLabel D. mel. Net
+longLabel $o_Organism ($o_date) Alignment Net
+group compGeno
+priority 133.82
+visibility hide
+spectrum on
+type netAlign dm2 chainDm2
+otherDb dm2
+
+# release alpha: $o_db in shortLabel
+track chainDm3
+shortLabel ($o_db) D. mel. Chain
+longLabel $o_Organism ($o_date) Chained Alignments
+group compGeno
+priority 133.71
+visibility hide
+color 100,50,0
+altColor 255,240,200
+spectrum on
+matrix 16 91,-90,-25,-100,-90,100,-100,-25,-25,-100,100,-90,-100,-25,-90,91
+matrixHeader A, C, G, T
+type chain dm3
+otherDb dm3
+release alpha
+
+# release alpha: $o_db in shortLabel
+track netDm3
+shortLabel ($o_db) D. mel. Net
+longLabel $o_Organism ($o_date) Alignment Net
+group compGeno
+priority 133.72
+visibility hide
+spectrum on
+type netAlign dm3 chainDm3
+otherDb dm3
+release alpha
+
+# release beta,public: no $o_db in shortLabel
+track chainDm3
+shortLabel D. mel. Chain
+longLabel $o_Organism ($o_date) Chained Alignments
+group compGeno
+priority 133.71
+visibility hide
+color 100,50,0
+altColor 255,240,200
+spectrum on
+matrix 16 91,-90,-25,-100,-90,100,-100,-25,-25,-100,100,-90,-100,-25,-90,91
+matrixHeader A, C, G, T
+type chain dm3
+otherDb dm3
+release beta,public
+
+# release beta,public: no $o_db in shortLabel
+track netDm3
+shortLabel D. mel. Net
+longLabel $o_Organism ($o_date) Alignment Net
+group compGeno
+priority 133.72
+visibility hide
+spectrum on
+type netAlign dm3 chainDm3
+otherDb dm3
+release beta,public
+
+track chainOtoGar1Best
+shortLabel $o_Organism Best Chain
+longLabel $o_Organism ($o_date) Chained Alignments Recip Best
+group compGeno
+priority 274.1
+visibility hide
+color 100,50,0
+altColor 255,240,200
+spectrum on
+type chain otoGar1
+otherDb otoGar1
+
+track chainBorEut13
+shortLabel $o_Organism Chain
+longLabel $o_Organism ($o_date) Chained Alignments
+group compGeno
+priority 200
+visibility hide
+color 100,50,0
+altColor 255,240,200
+spectrum on
+type chain borEut13
+otherDb borEut13
+
+track chainHg16
+shortLabel $o_Organism Chain
+longLabel $o_Organism ($o_date) Chained Alignments
+group compGeno
+priority 250
+visibility hide
+color 100,50,0
+altColor 255,240,200
+spectrum on
+type chain hg16
+otherDb hg16
+
+track chainCi2
+shortLabel $o_Organism Chain
+longLabel $o_Organism ($o_date) Chained Alignments
+group compGeno
+priority 209
+visibility hide
+color 100,50,0
+altColor 255,240,200
+spectrum on
+type chain ci2
+otherDb ci2
+
+track netCi2
+shortLabel $o_Organism Net
+longLabel $o_Organism ($o_date) Alignment Net
+group compGeno
+priority 209.1
+visibility hide
+spectrum on
+type netAlign ci2 chainCi2
+otherDb ci2
+
+track blastHg17KG
+shortLabel Hg17  Proteins
+longLabel Hg17 Proteins Mapped by Chained tBLASTn
+group genes
+visibility pack
+colorChromDefault off
+type psl protein
+pred hg17.blastKGPep01
+blastRef hg17.blastKGRef01
+
+track blastHg18KG
+shortLabel Human Proteins
+longLabel Human Proteins Mapped by Chained tBLASTn
+group genes
+visibility pack
+colorChromDefault off
+type psl protein
+pred hg18.blastKGPep04
+blastRef hg18.blastKGRef04
+
+track BRout
+shortLabel BRout
+longLabel  BRout
+group x
+spectrum on
+visibility hide
+type psl xeno
+
+track phastConsElements
+shortLabel Most Conserved
+longLabel PhastCons Conserved Elements
+group compGeno
+visibility hide
+exonArrows off
+showTopScorers 200
+type bed 5 .
+
+track phastConsElementsPaper
+shortLabel Most Cons. (Std)
+longLabel PhastCons Conserved Elements, Standardized Across Species
+group compGeno
+visibility hide
+exonArrows off
+useScore 1
+showTopScorers 200
+type bed 5 .
+
+track encodeRegionsLiftOver
+shortLabel liftOver Regions
+longLabel liftOver ENCODE Region Orthologs (Freeze 3)
+group encode
+color 0,200,0
+visibility hide
+type bed 4 .
+
+track encodeRegionsMercator
+shortLabel Mercator Regions
+longLabel Mercator ENCODE Region Orthologs (Freeze 3)
+group encode
+color 0,0,200
+visibility hide
+type bed 4 .
+
+track encodeRegionsMercatorMerged
+shortLabel Mercator Regions
+longLabel Merged Mercator ENCODE Region Orthologs (Freeze 3)
+group encode
+color 0,0,200
+visibility hide
+type bed 4 .
+
+track encodeRegionsConsensus
+shortLabel ENCODE Region Consensus
+longLabel Consensus Orthology of ENCODE Regions from LiftOver and Mercator (Freeze 3)
+group encode
+color 150,100,30
+visibility hide
+type bed 4 .
+
+
+track phastConsTopPaper
+shortLabel phastCons HCE
+longLabel PhastCons Highly Conserved Elements (HCEs)
+group compGeno
+visibility hide
+color 0,100,0
+type bed 5 .
+
+searchTable ctgPos
+searchMethod exact
+shortCircuit 1
+termRegex (ctg|NT_|NG_|NC_)[0-9]+
+query select chrom,chromStart,chromEnd,contig from %s where contig like '%s'
+searchPriority 5
+
+searchTable cytoBand
+searchMethod exact
+searchType cytoBand
+shortCircuit 1
+termRegex (x|y|[1-9][0-9]?)[pq]+[0-9]+(\.[0-9]+)?
+searchPriority 6
+padding 500000
+
+searchTable clonePos
+searchMethod exact
+searchType bed
+shortCircuit 1
+termRegex [a-z]+_?[0-9]+\.[0-9]+
+searchPriority 7
+
+searchName clonePosNoVers
+searchTable clonePos
+searchMethod prefix
+shortCircuit 1
+termRegex [a-z][a-z0-9]_?[0-9]+
+query select chrom,chromStart,chromEnd,name from %s where name like '%s.%%'
+dontCheck [a-z][a-z0-9]_?[0-9]+\.[0-9]+
+searchPriority 7
+
+searchTable gold
+searchMethod exact
+searchType gold
+shortCircuit 1
+termRegex [abuz].[0-9]+(\.[0-9]+)?
+searchPriority 8
+
+searchTable par
+searchMethod exact
+searchType bed
+termRegex PAR[0-2]?
+searchPriority 8
+
+searchName knownGeneAcc
+searchTable knownGene
+searchMethod exact
+searchType knownGene
+shortCircuit 1
+semiShortCircuit 1
+termRegex (uc[0-9]{3}[a-z]{3}(\.[0-9]+)?|N(M|R)_[0-9]{6}[0-9]*|[a-z][a-z0-9][0-9]{4}[0-9]*)
+searchPriority 9
+
+searchName stsMapAliasMrnaAcc
+searchTable stsMap
+searchType bed
+xrefTable stsAlias
+xrefQuery select trueName,alias from %s where alias like '%s'
+searchBoth on
+termRegex [a-z][a-z0-9][0-9]+
+dontCheck [^[:space:]]+
+searchDescription Alias of STS Marker
+searchPriority 11
+padding 100000
+
+searchTable encodeRegions
+searchMethod prefix
+searchType bed
+shortCircuit 1
+termRegex EN[rm][0-9]+(_[0-9]+)?
+searchPriority 11
+
+searchTable encodeRegionsConsensus
+searchMethod prefix
+searchType bed
+shortCircuit 1
+termRegex EN[rm][0-9]+(_[0-9]+)?
+searchPriority 11
+
+searchName snpMapShort
+searchTable snpMap
+searchMethod exact
+searchType bed
+semiShortCircuit 1
+termRegex (rs[0-9]{3}[0-9]+|SNP_A-[0-9]+(_[0-9]+)?)
+dontCheck ([0-9]+|rs[0-9][0-9]?[0-9]?)
+searchPriority 12.999
+padding 250
+
+searchName snpShort
+searchTable snp
+searchMethod exact
+searchType bed
+semiShortCircuit 1
+termRegex (rs[0-9]{3}[0-9]+|SNP_A-[0-9]+(_[0-9]+)?)
+dontCheck ([0-9]+|rs[0-9][0-9]?[0-9]?)
+searchPriority 12.998
+padding 250
+
+searchTable snp125
+searchMethod exact
+searchType bed
+semiShortCircuit 1
+termRegex ([0-9]+|rs[0-9]+)
+searchPriority 12.997
+padding 250
+
+searchTable snp126
+searchMethod exact
+searchType bed
+semiShortCircuit 1
+termRegex rs[0-9]+
+searchPriority 12.996
+padding 250
+
+searchTable snp127
+searchMethod exact
+searchType bed
+semiShortCircuit 1
+termRegex rs[0-9]+
+searchPriority 12.995
+padding 250
+
+searchTable snp128
+searchMethod exact
+searchType bed
+semiShortCircuit 1
+termRegex rs[0-9]+
+searchPriority 12.994
+padding 250
+
+searchTable snp129
+searchMethod exact
+searchType bed
+semiShortCircuit 1
+termRegex rs[0-9]+
+searchPriority 12.993
+padding 250
+
+searchTable snp130
+searchMethod exact
+searchType bed
+semiShortCircuit 1
+termRegex rs[0-9]+
+searchPriority 12.992
+padding 250
+
+searchTable snp131
+searchMethod exact
+searchType bed
+semiShortCircuit 1
+termRegex rs[0-9]+
+searchPriority 12.991
+padding 250
+
+searchTable snp132Common
+searchMethod exact
+searchType bed
+semiShortCircuit 1
+termRegex rs[0-9]+
+searchPriority 12.9901
+padding 250
+
+searchTable snp132Flagged
+searchMethod exact
+searchType bed
+semiShortCircuit 1
+termRegex rs[0-9]+
+searchPriority 12.9902
+padding 250
+
+searchTable snp132Mult
+searchMethod exact
+searchType bed
+semiShortCircuit 1
+termRegex rs[0-9]+
+searchPriority 12.9903
+padding 250
+
+searchTable snp132
+searchMethod exact
+searchType bed
+semiShortCircuit 1
+termRegex rs[0-9]+
+searchPriority 12.9904
+padding 250
+
+searchTable snp135Common
+searchMethod exact
+searchType bed
+semiShortCircuit 1
+termRegex rs[0-9]+
+searchPriority 12.9891
+padding 250
+
+searchTable snp135Flagged
+searchMethod exact
+searchType bed
+semiShortCircuit 1
+termRegex rs[0-9]+
+searchPriority 12.9892
+padding 250
+
+searchTable snp135Mult
+searchMethod exact
+searchType bed
+semiShortCircuit 1
+termRegex rs[0-9]+
+searchPriority 12.9893
+padding 250
+
+searchTable snp135
+searchMethod exact
+searchType bed
+semiShortCircuit 1
+termRegex rs[0-9]+
+searchPriority 12.9894
+padding 250
+
+searchTable snp137Common
+searchMethod exact
+searchType bed
+semiShortCircuit 1
+termRegex rs[0-9]+
+searchPriority 12.9885
+padding 250
+
+searchTable snp137Flagged
+searchMethod exact
+searchType bed
+semiShortCircuit 1
+termRegex rs[0-9]+
+searchPriority 12.9886
+padding 250
+
+searchTable snp137Mult
+searchMethod exact
+searchType bed
+semiShortCircuit 1
+termRegex rs[0-9]+
+searchPriority 12.9887
+padding 250
+
+searchTable snp137
+searchMethod exact
+searchType bed
+semiShortCircuit 1
+termRegex rs[0-9]+
+searchPriority 12.9888
+padding 250
+
+searchTable snp138Common
+searchMethod exact
+searchType bed
+semiShortCircuit 1
+termRegex rs[0-9]+
+searchPriority 12.9875
+padding 250
+
+searchTable snp138Flagged
+searchMethod exact
+searchType bed
+semiShortCircuit 1
+termRegex rs[0-9]+
+searchPriority 12.9876
+padding 250
+
+searchTable snp138Mult
+searchMethod exact
+searchType bed
+semiShortCircuit 1
+termRegex rs[0-9]+
+searchPriority 12.9877
+padding 250
+
+searchTable snp138
+searchMethod exact
+searchType bed
+semiShortCircuit 1
+termRegex rs[0-9]+
+searchPriority 12.9878
+padding 250
+
+searchTable snp147Common
+searchMethod exact
+searchType bed
+semiShortCircuit 1
+termRegex rs[0-9]+
+searchPriority 12.9846
+padding 250
+
+searchTable snp147Flagged
+searchMethod exact
+searchType bed
+semiShortCircuit 1
+termRegex rs[0-9]+
+searchPriority 12.9847
+padding 250
+
+searchTable snp147Mult
+searchMethod exact
+searchType bed
+semiShortCircuit 1
+termRegex rs[0-9]+
+searchPriority 12.9848
+padding 250
+
+searchTable snp147
+searchMethod exact
+searchType bed
+semiShortCircuit 1
+termRegex rs[0-9]+
+searchPriority 12.953
+padding 250
+
+searchTable snp148Common
+searchMethod exact
+searchType bed
+semiShortCircuit 1
+termRegex rs[0-9]+
+searchPriority 12.9843
+padding 250
+
+searchTable snp148Flagged
+searchMethod exact
+searchType bed
+semiShortCircuit 1
+termRegex rs[0-9]+
+searchPriority 12.9844
+padding 250
+
+searchTable snp148Mult
+searchMethod exact
+searchType bed
+semiShortCircuit 1
+termRegex rs[0-9]+
+searchPriority 12.9845
+padding 250
+
+searchTable snp148
+searchMethod exact
+searchType bed
+semiShortCircuit 1
+termRegex rs[0-9]+
+searchPriority 12.952
+padding 250
+
+searchTable ensGene
+searchType genePred
+shortCircuit 1
+termRegex ENS([A-Z]{3})?T[0-9]+(\.[0-9]+)?
+searchPriority 50
+
+searchName ensDotPrefix
+searchTable ensGene
+query select chrom,txStart,txEnd,name from %s where name like '%s.%%'
+shortCircuit 1
+termRegex ENS([A-Z]{3})?T[0-9]+
+dontCheck ENS([A-Z]{3})?T[0-9]+\.[0-9]+
+searchPriority 50
+
+searchName ensGeneGtpGene
+searchTable ensGene
+searchType genePred
+searchMethod prefix
+shortCircuit 1
+xrefTable ensGtp
+xrefQuery select transcript,gene from %s where gene like '%s%%'
+termRegex ENS([A-Z]{3})?G[0-9]+(\.[0-9]+)?
+searchPriority 50
+
+searchName ensGeneGtpProtein
+searchTable ensGene
+searchType genePred
+searchMethod prefix
+shortCircuit 1
+xrefTable ensGtp
+xrefQuery select transcript,protein from %s where protein like '%s%%'
+termRegex ENS([A-Z]{3})?P[0-9]+(\.[0-9]+)?
+
+searchTable ensEstGene
+searchType genePred
+shortCircuit 1
+searchMethod prefix
+termRegex ENSESTT[0-9]+(\.[0-9]+)?
+searchPriority 50
+
+searchName ensEstGeneGtpGene
+searchTable ensEstGene
+searchType genePred
+searchMethod prefix
+shortCircuit 1
+xrefTable ensEstGtp
+xrefQuery select transcript,gene from %s where gene like '%s%%'
+termRegex ENSESTG[0-9]+(\.[0-9]+)?
+searchPriority 50
+
+searchName ensEstGeneGtpProtein
+searchTable ensEstGene
+searchType genePred
+searchMethod prefix
+shortCircuit 1
+xrefTable ensEstGtp
+xrefQuery select transcript,protein from %s where protein like '%s%%'
+termRegex ENSESTP[0-9]+(\.[0-9]+)?
+searchPriority 50
+
+searchName ensGeneName
+searchTable ensGene
+searchType genePred
+searchMethod prefix
+xrefTable ensemblToGeneName
+xrefQuery select name,value from %s where value like '%%%s%%'
+searchPriority 50
+
+searchTable knownGene
+searchType knownGene
+searchPriority 1
+
+searchTable pseudoYaleEncode
+searchType genePred
+searchMethod exact
+searchPriority 4
+
+searchTable pseudoHavana
+searchType genePred
+searchMethod exact
+searchPriority 4
+
+searchTable pseudoGIS
+searchType genePred
+searchMethod exact
+searchPriority 4
+
+searchTable superfamily
+searchType bed
+searchMethod fuzzy
+xrefTable sfDescription
+xrefQuery select name,description from %s where description like '%%%s%%'
+searchDescription Description of Superfamily Protein
+searchPriority 6
+padding 100
+
+searchTable fishClones
+searchMethod exact
+searchType bed
+termRegex (RP|CT|GS)[[:alnum:]]+-[[:alnum:]]+
+searchPriority 7
+
+searchTable bacEndPairs
+searchMethod exact
+searchType bed
+termRegex ([[:alnum:]_ ]+|((RP|CT|GS|CH|TAM|MSMG)[[:alnum:]]+)?(-[[:alnum:]_]+)+)
+searchPriority 8
+
+searchTable bacEndPairsBad
+searchMethod exact
+searchType bed
+termRegex ([[:alnum:]_ ]+|((RP|CT|GS|CH|TAM|MSMG)[[:alnum:]]+)?(-[[:alnum:]_]+)+)
+searchPriority 8
+
+searchTable fosEndPairs
+searchMethod exact
+searchType bed
+termRegex ([[:alnum:]]+|(RP|CT|GS)[[:alnum:]]+-[[:alnum:]]+|-[[:alnum:]]+-[[:alnum:]]+)
+searchPriority 9
+
+searchTable fosEndPairsBad
+searchMethod exact
+searchType bed
+termRegex ([[:alnum:]]+|(RP|CT|GS)[[:alnum:]]+-[[:alnum:]]+|-[[:alnum:]]+-[[:alnum:]]+)
+searchPriority 10
+
+searchName stsMapAliasComprehensive
+searchTable stsMap
+searchType bed
+xrefTable stsAlias
+xrefQuery select trueName,alias from %s where alias like '%s'
+searchBoth on
+termRegex [^[:space:]]+
+searchDescription Alias of STS Marker
+searchPriority 11
+padding 100000
+
+searchName snpMapLong
+searchTable snpMap
+searchMethod exact
+searchType bed
+semiShortCircuit 1
+termRegex ([0-9]+|rs[0-9][0-9]?[0-9]?)
+dontCheck (rs[0-9]{3}[0-9]+|SNP_A-[0-9]+(_[0-9]+)?)
+searchPriority 16.999
+padding 250
+
+searchName snpLong
+searchTable snp
+searchMethod exact
+searchType bed
+semiShortCircuit 1
+termRegex ([0-9]+|rs[0-9][0-9]?[0-9]?)
+dontCheck (rs[0-9]{3}[0-9]+|SNP_A-[0-9]+(_[0-9]+)?)
+searchPriority 16.998
+padding 250
+
+searchTable genieAlt
+searchType genePred
+termRegex A\.chr.*-.*\.[0-9]+
+searchPriority 50
+
+searchTable softberryGene
+searchType genePred
+termRegex C[A-Z0-9][A-Z0-9][0-9]+
+searchPriority 50
+
+searchTable acembly
+searchType genePred
+termRegex [^[:space:]]+
+searchPriority 50
+
+searchTable genscan
+searchType genePred
+termRegex [[:alnum:]_?]+(\.[0-9]+)*
+searchPriority 50
+
+searchTable twinscan
+searchType genePred
+termRegex (chr)?.*\.[0-9]+\.[0-9]+\.[a-z]
+searchPriority 50
+
+searchTable sgpGene
+searchType genePred
+termRegex chr[^_]+_((gl[0-9]+_)?(random_)?|([a-z0-9]+)_hap[0-9]_)?[0-9]+(\.[0-9]+)?
+searchPriority 50
+
+searchTable geneid
+searchType genePred
+searchMethod prefix
+termRegex chr[^_]+_((gl[0-9]+_)?(random_)?|([a-z0-9]+)_hap[0-9]_)?[0-9]+(\.[0-9]+)?
+searchPriority 50
+
+searchTable ECgene
+searchType genePred
+termRegex [[:alnum:]_]+\.[0-9]+
+searchPriority 50
+
+searchTable sangerGene
+searchType genePred
+searchPriority 50
+
+searchTable vegaGene
+searchType genePred
+searchPriority 50
+
+searchTable vegaPseudoGene
+searchType genePred
+searchPriority 50
+
+searchTable vegaGene
+searchName vegaGene2
+searchMethod prefix
+query select chrom, txStart,txEnd, name from %s where name2 like '%s%%'
+searchPriority 50.1
+
+searchTable vegaPseudoGene
+searchName vegaPseudoGene2
+searchMethod prefix
+query select chrom, txStart,txEnd, name from %s where name2 like '%s%%'
+searchPriority 50.1
+
+searchTable slamRat
+searchType genePred
+termRegex [[:alnum:]_]+\.[0-9]+\.[0-9]+
+searchPriority 50
+
+searchTable slamMouse
+searchType genePred
+termRegex [[:alnum:]_]+\.[0-9]+\.[0-9]+
+searchPriority 50
+
+searchTable slamHuman
+searchType genePred
+termRegex [[:alnum:]_]+\.[0-9]+\.[0-9]+
+searchPriority 50
+
+searchTable rgdQtl
+searchType bed
+searchMethod fuzzy
+searchPriority 50
+
+searchTable rgdRatQtl
+searchType bed
+searchMethod fuzzy
+searchPriority 50
+
+searchTable rgdSslp
+searchType bed
+searchPriority 50
+
+searchTable rgdEst
+searchType psl
+searchPriority 50
+
+searchTable rgdGene
+searchType genePred
+searchPriority 50
+
+searchTable NIAGene
+searchMethod prefix
+searchType psl
+searchPriority 50
+
+searchTable rnaCluster
+searchMethod exact
+searchType bed
+termRegex chr[0-9a-z_]+[.][0-9]+
+searchPriority 50
+
+searchName oreg
+searchTable oreganno
+searchMethod exact
+query select chrom, chromStart, chromEnd, id from %s where id = '%s'
+termRegex OREG[0-9]+
+padding 500
+searchPriority 55
+
+searchTable blastDm2FB
+searchMethod prefix
+searchType psl
+searchPriority 25
+
+searchTable blastDm1FB
+searchMethod prefix
+searchType psl
+searchPriority 25
+
+searchTable blastHg16KG
+searchMethod prefix
+searchType psl
+searchPriority 25
+
+searchName blastHg16KGSprot
+searchTable blastHg16KG
+searchMethod prefix
+searchType psl
+xrefTable hg16.blastKGRef00
+xrefQuery select acc,extra1 from %s where extra1 like '%s%%'
+searchPriority 25
+
+searchName blastHg16KGGene
+searchTable blastHg16KG
+searchMethod prefix
+searchType psl
+xrefTable hg16.blastKGRef00
+xrefQuery select acc,geneId from %s where geneId like '%s%%'
+
+searchName blastHg17KGSprot
+searchTable blastHg17KG
+searchMethod prefix
+searchType psl
+xrefTable hg17.blastKGRef01
+xrefQuery select acc,extra1 from %s where extra1 like '%s%%'
+searchPriority 25
+
+searchName blastHg17KGGene
+searchTable blastHg17KG
+searchMethod prefix
+searchType psl
+xrefTable hg17.blastKGRef01
+xrefQuery select acc,geneId from %s where geneId like '%s%%'
+searchPriority 25
+
+searchTable blastHg17KG
+searchMethod prefix
+searchType psl
+
+searchName blastHg18KGSprot
+searchTable blastHg18KG
+searchMethod prefix
+searchType psl
+xrefTable hg18.blastKGRef04
+xrefQuery select acc,extra1 from %s where extra1 like '%s%%'
+searchPriority 25
+
+searchName blastHg18KGGene
+searchTable blastHg18KG
+searchMethod prefix
+searchType psl
+xrefTable hg18.blastKGRef04
+xrefQuery select acc,geneId from %s where geneId like '%s%%'
+searchPriority 25
+
+searchTable blastHg18KG
+searchMethod prefix
+searchType psl
+semiShortCircuit 1
+
+searchName blastDm2FBGene
+searchTable blastDm2FB
+searchMethod prefix
+searchType psl
+xrefTable dm2.blastFBRef01
+xrefQuery select acc,geneId from %s where geneId like '%s%%'
+searchPriority 25
+
+searchName blastDm1FBGene
+searchTable blastDm1FB
+searchMethod prefix
+searchType psl
+xrefTable dm1.blastFBRef00
+xrefQuery select acc,geneId from %s where geneId like '%s%%'
+searchPriority 25
+
+searchTable phastConsTopPaper
+searchType bed
+searchPriority 50
+termRegex pc[a-z][a-z].[[:alnum:]]+
+
+searchTable allenBrainAli
+searchMethod exact
+searchType psl
+searchPriority 5
+shortCircuit 1
+termRegex RP_.+
+
+track encodeRegions2
+shortLabel ENCODE Region Consensus (Freeze 2)
+longLabel Consensus Orthology of ENCODE Regions from liftOver and Mercator (Freeze 2)
+group encode
+color 200,0,0
+visibility pack
+type bed 4 .
+
+searchName assemblyAcc
+searchTable gold
+searchMethod prefix
+query select chrom,chromStart,chromEnd,frag from %s where frag like '%s'
+xrefTable contigAcc
+xrefQuery select contig,acc from %s where acc like '%s%%'
+searchPriority 5
+shortCircuit 1
+termRegex [A-Z]{4}[0-9]{8,10}(\.[0-9]+)?
+
+searchTable eponine
+searchType bed
+searchMethod exact
+termRegex chr[0-9]+[.][0-9]+
+searchPriority 50
+
+searchTable ccdsGene
+searchType genePred
+searchPriority 1.1
+
+track grcIncidentDb
+shortLabel GRC Incident
+longLabel GRC Incident Database
+group map
+visibility hide
+type bigBed 4 +
+url http://www.ncbi.nlm.nih.gov/projects/genome/assembly/grc/issue_detail.cgi?id=$$
+urlLabel GRC Incident:
+
+track tRNAs
+shortLabel tRNA Genes
+longLabel Transfer RNA Genes Identified with tRNAscan-SE
+group genes
+visibility hide
+color 0,20,150
+type bed 6 +
+nextItemButton on
+noScoreFilter .
+
+searchName tRNA-name
+searchTable tRNAs
+searchType bed
+searchMethod fuzzy
+query select chrom,chromStart,chromEnd,name from %s where name like '%%%s%%'
+searchDescription tRNAscan-SE tRNA Name
+searchPriority 63
+
+track refGenePfam
+shortLabel Pfam in RefSeq
+longLabel Pfam Domains in RefSeq Genes
+group genes
+type bed 12
+color 20,0,250
+url http://pfam.xfam.org/family/$$
+
+track ucscGenePfam
+shortLabel Pfam in UCSC Gene
+longLabel Pfam Domains in UCSC Genes
+group genes
+type bed 12
+color 20,0,250
+url http://pfam.xfam.org/family/$$
+
+track numtSeq2012
+compositeTrack on
+shortLabel NumtS Sequence
+longLabel $Organism NumtS Mitochondrial Sequence
+group varRep
+visibility hide
+noInherit on
+type bed 3 .
+html numtSeq2012
+
+    track numtS
+    parent numtSeq2012
+    shortLabel NumtS
+    longLabel $Organism NumtS
+    color 0,60,120
+    useScore 1
+    priority 1
+    type bed 6 .
+    html numtSeq2012
+
+    track numtSAssembled
+    parent numtSeq2012
+    shortLabel NumtS assembled
+    longLabel $Organism NumtS Assembled
+    color 0,60,120
+    priority 2
+    useScore 1
+    type bed 12 .
+    html numtSeq2012
+
+    track numtSMitochondrion
+    parent numtSeq2012
+    shortLabel NumtS on chrM
+    longLabel $Organism NumtS on Mitochondrion
+    useScore 1
+    color 0,60,120
+    priority 3
+    type bed 6 .
+    html numtSeq2012
+    chromosomes chrM
+
+    track  bamAllNumtSSorted
+    parent numtSeq2012
+    shortLabel NumtS SNPs
+    longLabel $Organism NumtS on Mitochondrion SNPs
+    priority 4
+    visibility pack
+    configurable on
+    type bam
+    bamSkipPrintQualScore .
+    chromosomes chrM
+    pairEndsByName on
+    showNames on
+    noColorTag .
+    bamColorMode strand
+    bamGrayMode aliQual
+    aliQualRange 0:255
+    baseColorDefault diffBases
+    baseColorUseSequence lfExtra
+    indelDoubleInsert on
+    indelQueryInsert on
+    showDiffBasesAllScales .
+    showDiffBasesMaxZoom 100
+    maxWindowToDraw 1000000
+
+track qPcrPrimers
+shortLabel qPCR Primers
+longLabel $Organism ($db) Whole Transcriptome qPCR Primers
+group expression
+type bedDetail 14
+visibility hide
+noScoreFilter on
+itemRgb on
+
+searchTable qPcrPrimers
+searchMethod exact
+searchType bed
+
+searchTable refGenePfam
+searchMethod exact
+searchType bed
+
+searchTable ucscGenePfam
+searchMethod exact
+searchType bed
+
+track cytoBandIdeo
+shortLabel Chromosome Band (Ideogram)
+longLabel Ideogram for Orientation
+group map
+visibility dense
+type bed 4 +
+
+track ucscToINSDC
+shortLabel INSDC
+longLabel Accession at INSDC - International Nucleotide Sequence Database Collaboration
+group map
+visibility hide
+url http://www.ncbi.nlm.nih.gov/nuccore/$$
+urlLabel INSDC link:
+type bed 4
+
+track ucscToRefSeq
+shortLabel RefSeq Acc
+longLabel RefSeq Accession
+group map
+visibility hide
+url http://www.ncbi.nlm.nih.gov/nuccore/$$
+urlLabel RefSeq accession:
+type bed 4
+
+searchTable ucscToRefSeq
+shortCircuit 1
+termRegex ^[A-Za-z0-9_]+(\.[0-9]+)?
+query select chrom,chromStart,chromEnd,name from %s where name like '%s%%'
+searchPriority 20
+
+track spMut
+shortLabel UniProt Variants
+longLabel UniProt/SwissProt Amino Acid Substitutions
+group phenDis
+visibility hide
+type bigBed 12 +
+itemRgb on
+urls variationId="http://www.uniprot.org/uniprot/$$" uniProtId="http://www.uniprot.org/uniprot/$$" pmids="http://www.ncbi.nlm.nih.gov/pubmed/$$"
+mouseOverField comments
+exonNumbers off
+noScoreFilter on
+
+track spUniprot
+shortLabel UniProt
+longLabel UniProt/SwissProt Annotations
+group genes
+visibility hide
+type bigBed 12 +
+itemRgb on
+exonNumbers off
+compositeTrack on
+
+        track spAnnot
+        shortLabel UniProt Annot.
+        longLabel UniProt/SwissProt Protein Annotations
+        parent spUniprot
+        group genes
+        visibility hide
+        type bigBed 12 +
+        itemRgb on
+        urls uniProtId="http://www.uniprot.org/uniprot/$$#section_features" pmids="http://www.ncbi.nlm.nih.gov/pubmed/$$"
+        mouseOverField comments
+        noScoreFilter on
+        exonNumbers off
+
+        track spStruct
+        shortLabel UniProt Structure
+        longLabel UniProt/SwissProt Protein Primary/Secondary Structure Annotations
+        parent spUniprot
+        group genes
+        visibility hide
+        type bigBed 12 +
+        itemRgb on
+        urls uniProtId="http://www.uniprot.org/uniprot/$$#section_features" pmids="http://www.ncbi.nlm.nih.gov/pubmed/$$"
+        mouseOverField comments
+        noScoreFilter on
+        exonNumbers off
+
+track ncbiRefOverlap
+shortLabel NCBI Overlaps
+longLabel NCBI Gene Annotations with Exon Overlaps
+group genes
+visibility hide
+priority 1
+color 12,12,120
+type genePred 
+baseColorUseCds given
+baseColorDefault genomicCodons
+
+searchTable ucscToINSDC
+shortCircuit 1
+termRegex ^[A-Za-z0-9_]+(\.[0-9]+)?
+query select chrom,chromStart,chromEnd,name from %s where name like '%s%%'
+searchPriority 10
+
+track animalQtl
+shortLabel $Organism QTL
+longLabel $Organism Quantitative Trait Loci from animalQTLdb
+group map
+visibility hide
+type bed 4 .
+color 255,123,89
+# iframeUrl http://www.animalgenome.org/cgi-bin/QTLdb/GG/qdetails?QTL_ID=$p
+
+searchTable animalQtl
+searchType bed
+termRegex ^[a-zA-Z0-9]+([a-zA-Z0-9:/.-]+[a-zA-Z0-9:/.-_%]+)*
+searchMethod fuzzy
+searchPriority 50
+
+searchName ncbiRefCurated
+searchTable ncbiRefCurated
+searchMethod exact
+searchType genePred
+#semiShortCircuit 1
+termRegex N(M|R)_[0-9]{6}[0-9]*.[0-9]*
+searchPriority 9.5
+
+searchName ncbiRefPredicted
+searchTable ncbiRefPredicted
+searchMethod exact
+searchType genePred
+#semiShortCircuit 1
+termRegex X(M|R)_[0-9]{6}[0-9]*.[0-9]*
+searchPriority 9.5
+
+track augustusGene
+shortLabel AUGUSTUS
+longLabel AUGUSTUS ab initio gene predictions v3.1
+group genes
+visibility hide
+color 12,105,0
+type genePred
+baseColorUseCds given
+baseColorDefault genomicCodons
+
+searchTable augustusGene
+searchType genePred
+shortCircuit 1
+searchMethod fuzzy
+termRegex g[0-9]+(\.t[0-9]+)?
+searchPriority 50
+

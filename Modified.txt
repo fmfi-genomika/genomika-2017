@@ -1,0 +1,4 @@
+# Stores real positions of modified files.
+# first path is the absolute path in genome browser, second is relativ path in git
+# Example: /kentsrc/kent/src/hg/makedb/trackDb/trackDb.ra example/trackDb.ra
+/kentsrc/kent/src/hg/makeDb/trackDb/trackDb.ra example/trackDb.ra
