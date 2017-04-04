@@ -13,11 +13,8 @@
 
 <li class="menuparent" id="tools1"><a href="../cgi-bin/hgGateway">Genomes</a>
 	<ul style="display: none; visibility: hidden;">
-	<li class="first"><a href="../cgi-bin/hgTracks?db=hg38&amp;position=lastDbPos">Human GRCh38/hg38</a></li>
-	<li><a href="../cgi-bin/hgTracks?db=hg19&amp;position=lastDbPos">Human GRCh37/hg19</a></li>
-	<li><a href="../cgi-bin/hgTracks?db=mm10&amp;position=lastDbPos">Mouse GRCm38/mm10</a></li>
-	<li><a href="../cgi-bin/hgTracks?db=mm9&amp;position=lastDbPos">Mouse NCBI37/mm9</a></li>
-	<li class="last"><a href="../cgi-bin/hgGateway">Others</a></li>
+	<li class="first"><a href="../cgi-bin/hgTracks?db=sacCer3&lastVirtModeType=default&lastVirtModeExtraState=&virtModeType=default&virtMode=0&nonVirtPosition=&position=chrIV%3A765966%2D775965&hgsid=194_HMz92NSPIOktaV9OnaXjBY10rH8t">S. cerevisiae</a></li>
+	<li><a href="../cgi-bin/hgTracks?db=yarLip1&lastVirtModeType=default&lastVirtModeExtraState=&virtModeType=default&virtMode=0&nonVirtPosition=&position=chrA%3A1000-2000&hgsid=194_HMz92NSPIOktaV9OnaXjBY10rH8t">Y. lipolytica</a></li>
         </ul>
 </li>
 
