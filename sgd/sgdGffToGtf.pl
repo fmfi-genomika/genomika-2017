@@ -182,8 +182,11 @@ while (my $line = <FH>) {
 	    printf STDERR "WARN: notes > 254 chars $fields[0], $fields[3], $fields[4], $name, $noteLine\n";
 	    $noteLine = substr($noteLine, 0, 253);
 	}
-	printf OT "%s\t%d\t%d\t%s\t0\t%s\t%s\n",
+	if ($fields[2] ne "mRNA")
+	{
+	    printf OT "%s\t%d\t%d\t%s\t0\t%s\t%s\n",
 	    $fields[0], $fields[3], $fields[4], $name, $fields[6], $noteLine;
+	}
 	printf NT "%s\t%s\t%s\n", $name, $fields[2], $noteLine;
     }
 #    print $line;
