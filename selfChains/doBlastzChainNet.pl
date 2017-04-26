@@ -648,7 +648,7 @@ _EOF_
 $file_string
 _EOF_
     );
-  #$bossScript->execute();
+  $bossScript->execute();
   
 }	#	sub doBlastzClusterRun {}
 
@@ -682,7 +682,7 @@ sub doCatRun {
       "./cat.sh \$(path1) {check out exists ../pslParts/\$(file1).psl.gz}");
   `touch "$runDir/para_hub_$paraHub"`;
 
-  my $outRoot = $opt_blastzOutRoot ? "$opt_blastzOutRoot/psl" : '../psl1';
+  my $outRoot = $opt_blastzOutRoot ? "$opt_blastzOutRoot/psl" : '../psl';
 
   my $fh = &HgAutomate::mustOpen(">$runDir/cat.sh");
   print $fh <<_EOF_
