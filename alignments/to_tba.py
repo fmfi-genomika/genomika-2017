@@ -14,12 +14,13 @@ files = files.strip().split('\n')
 for f in files:
     print(f)
     name = "sac"+f[:3].capitalize()
+    hname = name if name != "sacCer" else name+"3"
     proc = open(name+".fa", "w")
     out = []
     chr_counter = 1
     for l in open(f):
         if ">" in l:
-            out.append([">%s:%s:1:+:"%(name, str(chr_counter)),""])
+            out.append([">%s:%s:1:+:"%(hname, str(chr_counter)),""])
             chr_counter += 1
         
     	else:
