@@ -1,0 +1,258 @@
+
+include strainAlignments.ra
+
+# Local declaration so that local gold.html is picked up.
+track gold override
+html gold
+
+# Local declaration so that local gap.html is picked up.
+track gap override
+visibility hide
+html gap
+chromosomes none
+
+track transRegCode override
+visibility hide
+
+track sgdOther override
+noScoreFilter .
+
+track blastHg18KG override
+visibility hide
+
+track multiz7way
+shortLabel Conservation
+longLabel 7 yeast Multiz Alignment & Conservation
+group compGeno
+priority 103.2
+visibility pack
+color 0, 10, 100
+altColor 0,90,10
+type wigMaf 0.0 1.0
+maxHeightPixels 100:40:11
+spanList 1
+pairwiseHeight 12
+yLineOnOff Off
+autoScale Off
+windowingFunction mean
+frames multiz7wayFrames
+# irows on
+summary multiz7waySummary
+speciesOrder sacPar sacMik sacKud sacBay sacCas sacKlu
+treeImage phylo/sacCer2_7way.gif
+
+track phastCons7way
+shortLabel phastCons7way
+longLabel PhastCons 7 yeast Conservation
+group compGeno
+visibility full
+noInherit on
+configurable on
+type wig -5 5
+maxHeightPixels 100:50:11
+viewLimits -1:2
+autoScale off
+spanList 1
+windowingFunction mean
+color 40,40,120
+altColor 120,40,40
+
+
+track phastConsElements7way
+shortLabel Most Conserved
+longLabel PhastCons Conserved Elements, 7 yeast Multiz Alignment
+group compGeno
+priority 103.4
+visibility hide
+exonArrows off
+showTopScorers 200
+color 100,50,170
+type bed 5 .
+html phastConsElements
+
+track gc5Base_local
+shortLabel GC Percent Local
+longLabel GC Percent in 5-Base Windows Local
+group map
+visibility full
+autoScale Off
+maxHeightPixels 128:36:16
+graphTypeDefault Bar
+gridDefault OFF
+windowingFunction Mean
+color 100,0,0
+altColor 128,128,128
+viewLimits 30:70
+type wig 0 100
+
+#track repeat_local
+#shortLabel Repeats
+#longLabel Repeats from repeat Masker
+#group varRep
+#visibility pack
+#type bed 6
+#colorByStrand 255,0,0 0,0,255
+
+track geneTrackRefSeq_local
+shortLabel Genes from RefSeq (local)
+longLabel Protein-Coding Genes from RefSeq (local)
+group genes
+priority 39
+visibility pack
+color 0,0,255
+type genePred
+hgGene on
+hgsid on
+directUrl /cgi-bin/hgGene?hgg_gene=%s&hgg_chrom=%s&hgg_start=%d&hgg_end=%d&hgg_type=%s&db=%s
+exonArrows on
+
+track othersTrackRefSeq_local
+shortLabel RefSeq Other (local)
+longLabel Other Features from NCBI RefSeq
+group genes
+priority 39.1
+visibility pack
+color 26,175,0
+type bed 6 +
+exonArrows on
+
+track oreganno override
+pennantIcon 1.jpg ../goldenPath/help/liftOver.html "lifted from sacCer1"
+
+track sgdGenesLocal
+shortLabel SGD Genes (Local)
+longLabel Protein-Coding Genes from Saccharomyces Genome Database (experimental copy)
+group genes
+priority 39
+visibility pack
+color 250,100,10
+type genePred
+hgGene on
+hgsid on
+directUrl /cgi-bin/hgGene?hgg_gene=%s&hgg_chrom=%s&hgg_start=%d&hgg_end=%d&hgg_type=%s&db=%s
+exonArrows on
+
+track sgdOtherLocal
+shortLabel SGD Other (Local)
+longLabel Other Features from Saccharomyces Genome Database (experimental copy)
+group genes
+priority 39.1
+visibility pack
+color 255,51,153
+type bed 6 +
+exonArrows on
+
+track ensGenesLocal
+shortLabel Ensemble Genes (Local)
+longLabel Protein-Coding Genes from Ensemble Genome Database (Local)
+group genes
+priority 39
+visibility pack
+color 255,0,0
+type genePred
+hgGene on
+hgsid on
+directUrl /cgi-bin/hgGene?hgg_gene=%s&hgg_chrom=%s&hgg_start=%d&hgg_end=%d&hgg_type=%s&db=%s
+exonArrows on
+
+track chainSelf
+type chain sacCer3
+otherDb sacCer3
+shortLabel Self Chains (Local)
+longLabel Self Chains (Local)
+group compGeno
+visibility pack
+color 0,0,0
+altColor 100,50,0
+matrix 16 91,-114,-31,-123,-114,100,-125,-31,-31,-125,100,-114,-123,-31,-114,91
+matrixHeader A,C,G,T
+chainMinScore 10000
+chainLinearGap medium
+html chainNet
+
+track ensOtherLocal
+shortLabel Ensemble Other (Local)
+longLabel Other Features from Ensemble Genome Database (Local)
+group genes
+priority 39.1
+visibility pack
+color 0,0,255
+type bed 6 +
+exonArrows on
+
+track phyloP7way
+shortLabel PhyloP 7way
+longLabel PhyloP 7way
+group compGeno
+visibility full
+noInherit on
+configurable on
+type wig -14.08 6.42
+maxHeightPixels 100:50:11
+viewLimits -4:4
+autoScale off
+spanList 1
+windowingFunction mean
+color 40,40,120
+altColor 120,40,40
+
+track phyloPalign
+shortLabel PhyloP align
+longLabel PhyloP new align
+group compGeno
+visibility full
+noInherit on
+configurable on
+type wig -14.08 6.42
+maxHeightPixels 100:50:11
+viewLimits -4:4
+autoScale off
+spanList 1
+windowingFunction mean
+color 40,40,120
+altColor 120,40,40
+
+track sacCerMultAlignLocal2
+shortLabel saccerAlignLocal
+longLabel Saccer Alignment New Local
+group compGeno
+speciesOrder sacCer3 sacPar sacMik sacKud sacArb sacEub sacUva
+visibility dense
+color 0,0,255
+type wigMaf
+viewLimits 0:1
+autoScale off
+maxHeightPixels 50:50:11
+
+track sacCerAlignConsLocal
+shortLabel ConsNewLocal
+longLabel Conservation - new species Local
+group compGeno
+visibility dense
+noInherit on
+configurable on
+type wig -5 5
+maxHeightPixels 100:50:11
+viewLimits -1:2
+autoScale off
+spanList 1
+windowingFunction mean
+color 40,40,120
+altColor 120,40,40
+
+
+track pfam
+shortLabel Pfam
+longLabel Pfam
+group genes
+visibility full
+autoScale Off
+maxHeightPixels 128:36:16
+graphTypeDefault Bar
+gridDefault OFF
+windowingFunction Mean
+color 0,0,0
+altColor 128,128,128
+viewLimits 30:70
+type bed 12
+html pfam
