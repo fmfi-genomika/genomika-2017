@@ -11,16 +11,40 @@ uvarum/GCA_000166995.1_ASM16699v1_genomic.fna
 """
 files = files.strip().split('\n')
 
+R = ["I",
+"II",
+"III",
+"IV",
+"V",
+"VI",
+"VII",
+"VIII",
+"IX",
+"X",
+"XI",
+"XII",
+"XIII",
+"XIV",
+"XV",
+"XVI",
+"XVII",
+"XVIII",
+"XIX",
+"XX"]
+
 for f in files:
     print(f)
     name = "sac"+f[:3].capitalize()
     hname = name if name != "sacCer" else name+"3"
-    proc = open(name+".fa", "w")
+    proc = open(hname+".fa", "w")
     out = []
     chr_counter = 1
     for l in open(f):
         if ">" in l:
-            out.append([">%s:%s:1:+:"%(hname, str(chr_counter)),""])
+            if "chromosome" not in l and len(out)>0:
+                continue
+            chrr = str(chr_counter) if name!="sacCer" else "chr"+R[chr_counter-1]
+            out.append([">%s:%s:1:+:"%(hname, chrr),""])
             chr_counter += 1
         
     	else:
