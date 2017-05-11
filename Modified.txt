@@ -3,3 +3,6 @@
 # Example: /kentsrc/kent/src/hg/makedb/trackDb/trackDb.ra example/trackDb.ra
 /kentsrc/kent/src/hg/makeDb/trackDb/trackDb.ra example/trackDb.ra
 /usr/local/apache/htdocs/inc/globalNavBar.inc htmls/globalNavBar.inc
+/data/sacCer3/similarOrganisms/to_tba.py alignments/to_tba.py
+/data/sacCer3/similarOrganisms/show_alignment.sh alignments/show_alignment.sh
+
