@@ -6,7 +6,7 @@ mkdir $outDir
 
 date
 
-for f in multiz7way/maf/*.maf;
+for f in maf/*.maf;
 do
 	filename=$(basename "$f")
 	chromName="${filename%.*}"

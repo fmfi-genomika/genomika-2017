@@ -7,7 +7,7 @@ tree="((((((sacCer3,sacPar),sacMik),sacKud),sacBay),sacCas),sacKlu)"
 
 date
 
-for f in multiz7way/maf/*.maf;
+for f in maf/*.maf;
 do
 	filename=$(basename "$f")
 	chromName="${filename%.*}"
