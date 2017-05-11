@@ -3,7 +3,7 @@ outDir="mods"
 rm -r $outDir
 mkdir $outDir
 
-tree="((((((sacCer3,sacPar),sacMik),sacKud),sacBay),sacCas),sacKlu)"
+tree="$1"
 
 date
 
