@@ -619,18 +619,21 @@ sub doBlastzClusterRun {
   }
   my $templateCmd = ("$blastzRunUcsc -outFormat psl " .
 		     ($isSelf ? '-dropSelf ' : '') .
-		     '$(path1) $(path2) ../DEF ' .
-		     '{check out exists ' .
-		     $outRoot . '/$(file1)/$(file1)_$(file2).psl }');
+		     '$(path1) $(path2) ../DEF ../' .
+		     $outRoot . '/$(file1)/pom.psl ' .
+		     '&& perl ' .
+		     $buildDir .
+		     '/dropSelf.pl ../' .
+		     $outRoot . '/$(file1)/pom.psl ../' .
+		     $outRoot.'/$(file1)/$(file1)_$(file2).psl ' .
+		     '&& rm ../'. $outRoot . '/$(file1)/pom.psl ');
   &HgAutomate::makeGsub($runDir, $templateCmd);
-  `touch "$runDir/para_hub_$paraHub"`;
   my $whatItDoes = "It prepares set up and perform of the big cluster blastz run.";
   my $bossScript = newBash HgLocaleScript("$runDir/doClusterRun.sh", $paraHub,
 				      $runDir, $whatItDoes, $DEF);
   my $gensub2 = '/kentsrc/kent/src/parasol/bin/gensub2';
   $bossScript->add(<<_EOF_
 $gensub2 $targetList $queryList gsub jobList
-sed -re "s/(tParts\\/)(part[0-9]+)(\\.lst)(\\stParts\\/)(part[0-9]+)(\\.lst\\s\\.\\.\\/DEF\\s)\\{check\\sout\\sexists\\spsl[a-zA-Z0-9\\/\\._]+\\s\\}/\\1\\2\\3\\4\\5\\6\\.\\.\\/psl\\/\\2\\3\\/\\2\\5\\.psl/g" jobList > jobList1
 _EOF_
     );
   $bossScript->execute();
@@ -639,7 +642,7 @@ _EOF_
 				      $runDir, $whatItDoes, $DEF);
 				      
   local $/ = undef;
-  open FILE, "$runDir/jobList1" or die "Couldn't open file: $!";
+  open FILE, "$runDir/jobList" or die "Couldn't open file: $!";
   binmode FILE;
   my $file_string = <FILE>;
   close FILE;
@@ -679,8 +682,7 @@ sub doCatRun {
   #}
   &HgAutomate::mustMkdir($runDir);
   &HgAutomate::makeGsub($runDir,
-      "./cat.sh \$(path1) {check out exists ../pslParts/\$(file1).psl.gz}");
-  `touch "$runDir/para_hub_$paraHub"`;
+      "./cat.sh \$(path1) ../pslParts/\$(file1).psl.gz");
 
   my $outRoot = $opt_blastzOutRoot ? "$opt_blastzOutRoot/psl" : '../psl';
 
@@ -704,7 +706,6 @@ each subdirectory of $outRoot into a per-target-chunk file.";
 chmod a+x cat.sh
 $gensub2 tParts.lst single gsub jobList
 mkdir ../pslParts
-sed -re "s/(\\.\\/cat\\.sh\\spart[0-9]+\\.lst\\s)\\{check\\sout\\sexists\\s([a-zA-Z0-9\\.\\/]+)\\}/\\1\\2/g" jobList > jobList1
 _EOF_
     );
   $bossScript->execute();
@@ -713,7 +714,7 @@ _EOF_
 				      $runDir, $whatItDoes, $DEF);
 				      
   local $/ = undef;
-  open FILE, "$runDir/jobList1" or die "Couldn't open file: $!";
+  open FILE, "$runDir/jobList" or die "Couldn't open file: $!";
   binmode FILE;
   my $file_string = <FILE>;
   close FILE;
@@ -1677,6 +1678,8 @@ _EOF_
 
 # Prevent "Suspended (tty input)" hanging:
 &HgAutomate::closeStdin();
+
+&HgAutomate::verbose(1, "AAAAAAAAAAAAAAAAAAAAAAAAAAa\n");
 
 #$opt_debug = 1;
 
