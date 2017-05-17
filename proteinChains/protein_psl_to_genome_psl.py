@@ -21,13 +21,22 @@ def load_positions(filename):
     return positions
 
 def gene_pos_to_genome_pos(gene_info, pos):
-    # TODO: - strand
-    for exon in gene_info[2]:
-        exon_length = exon[1] - exon[0]
-        if pos < exon_length:
-            return exon[0] + pos
-        
-        pos -= exon_length
+    # DONE: - strand
+    if gene_info[1] == "+":
+        for exon in gene_info[2]:
+            exon_length = exon[1] - exon[0]
+            if pos < exon_length:
+                return exon[0] + pos
+            
+            pos -= exon_length
+    else:
+        for exon in reversed(gene_info[2]):
+            exon_length = exon[1] - exon[0]
+            if pos < exon_length:
+                return exon[1] - pos - 1
+            
+            pos -= exon_length
+
     print("nieco sa dodzigalo v gene_pos_to_genome_pos")
 
 def get_all_genome_positions(gene_info, starts, lengths):
@@ -71,7 +80,8 @@ def load_chrom_lengths(filename):
         lengths[cols[0]] = int(cols[1])
     return lengths
 
-
+def is_ascending(values):
+    return values[0] < values[1]
 
 
 sacCer_gene_positions = load_positions("sacCer3_gene_positions.txt")
@@ -80,7 +90,7 @@ yarLip_gene_positions = load_positions("yarLip1_gene_positions.txt")
 sacCer_chrom_lengths = load_chrom_lengths("sacCer_chrom_lengths.txt")
 yarLip_chrom_lengths = load_chrom_lengths("yarLip_chrom_lengths.txt")
 
-protein_pls_filename = "alignments_500.psl"
+protein_pls_filename = "500_and_more.psl"
 
 protein_pls_file = open(protein_pls_filename, "r")
 while True:
@@ -95,12 +105,25 @@ while True:
     saccer_block_starts = [int(x) for x in cols[20].split(",") if x != ""]
     yarlip_block_starts = [int(x) for x in cols[19].split(",") if x != ""]
 
-    # TODO: remove
-    if saccer[1] == "-" or yarlip[1] == "-":
-        continue
+    # DONE: remove
+    # if saccer[1] == "-" or yarlip[1] == "-":
+    #     continue
     
-    saccer_genome_positions = sorted(get_all_genome_positions(saccer, saccer_block_starts, lengths))
-    yarlip_genome_positions = sorted(get_all_genome_positions(yarlip, yarlip_block_starts, lengths))
+    saccer_genome_positions = get_all_genome_positions(saccer, saccer_block_starts, lengths)
+    yarlip_genome_positions = get_all_genome_positions(yarlip, yarlip_block_starts, lengths)
+
+    if not is_ascending(saccer_genome_positions):
+        saccer_genome_positions.reverse()
+        yarlip_genome_positions.reverse()
+
+    qstart = min(yarlip_genome_positions)
+    qend = max(yarlip_genome_positions) + 1
+    tstart = min(saccer_genome_positions)
+    tend = max(saccer_genome_positions) + 1
+    
+    if not is_ascending(yarlip_genome_positions):
+        yarlip_genome_positions = [yarLip_chrom_lengths[yarlip[0]] - pos for pos in yarlip_genome_positions]
+    
 
     genome_block_lengths, saccer_genome_block_starts, yarlip_genome_block_starts = get_blocks(saccer_genome_positions, yarlip_genome_positions)
 
@@ -118,17 +141,17 @@ while True:
     out_cols.append(str(int(cols[6]) ))
     out_cols.append(str(int(cols[7]) * 3))
 
-    out_cols.append(yarlip[1] + saccer[1])
+    out_cols.append("+" if yarlip[1] == saccer[1] else "-")
 
     out_cols.append(yarlip[0])
     out_cols.append(str(yarLip_chrom_lengths[yarlip[0]]))
-    out_cols.append(str(yarlip_genome_block_starts[0]))
-    out_cols.append(str(yarlip_genome_block_starts[-1] + genome_block_lengths[-1]))
+    out_cols.append(str(qstart))
+    out_cols.append(str(qend))
 
     out_cols.append(saccer[0])
     out_cols.append(str(sacCer_chrom_lengths[saccer[0]]))
-    out_cols.append(str(saccer_genome_block_starts[0]))
-    out_cols.append(str(saccer_genome_block_starts[-1] + genome_block_lengths[-1]))
+    out_cols.append(str(tstart))
+    out_cols.append(str(tend))
 
     out_cols.append(str(len(genome_block_lengths)))
 
