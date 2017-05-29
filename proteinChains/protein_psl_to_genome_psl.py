@@ -87,7 +87,7 @@ def is_ascending(values):
 if len(argv) != 6:
     usage = """
     Usage:
-    protein_psl_to_genome_psl.py <target gene positions> <query gene positions> <target chromosome lengths> <query chromosome lengths> <protein alighnemts>
+    protein_psl_to_genome_psl.py <target gene positions> <query gene positions> <target chromosome lengths> <query chromosome lengths> <protein alighnemts PSL>
 
     This program creates alignments from genome to genome based on the alignments of proteins. The bases of codons of aligned aminoacids are marked as aligned even if they are different.
     
