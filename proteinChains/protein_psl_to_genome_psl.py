@@ -1,4 +1,5 @@
 from sys import argv
+from sys import exit
 
 def load_positions(filename):
     fpos = open(filename, "r")
@@ -83,49 +84,65 @@ def load_chrom_lengths(filename):
 def is_ascending(values):
     return values[0] < values[1]
 
+if len(argv) != 6:
+    usage = """
+    Usage:
+    protein_psl_to_genome_psl.py <target gene positions> <query gene positions> <target chromosome lengths> <query chromosome lengths> <protein alighnemts>
 
-sacCer_gene_positions = load_positions("sacCer3_gene_positions.txt")
-yarLip_gene_positions = load_positions("yarLip1_gene_positions.txt")
+    This program creates alignments from genome to genome based on the alignments of proteins. The bases of codons of aligned aminoacids are marked as aligned even if they are different.
+    
+    You can extract the gene positions from genome browser using command:
+    hgsql <genome db> -B -e "SELECT * FROM ensGene"
 
-sacCer_chrom_lengths = load_chrom_lengths("sacCer_chrom_lengths.txt")
-yarLip_chrom_lengths = load_chrom_lengths("yarLip_chrom_lengths.txt")
+    To get the chromosome lengths use:
+    hgsql <genome db> -B -e "SELECT chrom, size FROM chromInfo"
 
-protein_pls_filename = "500_and_more.psl"
+    """
+    print (usage)
+    exit(0)
 
-protein_pls_file = open(protein_pls_filename, "r")
+target_gene_positions = load_positions(argv[1])
+query_gene_positions = load_positions(argv[2])
+
+target_chrom_lengths = load_chrom_lengths(argv[3])
+query_chrom_lengths = load_chrom_lengths(argv[4])
+
+protein_filename = argv[5]
+
+protein_file = open(protein_filename, "r")
 while True:
-    line = protein_pls_file.readline()
+    line = protein_file.readline()
     if line == "":
         break
     cols = line.strip().split()
-    saccer = sacCer_gene_positions[cols[13]]
-    yarlip = yarLip_gene_positions[cols[9]]
+    target = target_gene_positions[cols[13]]
+    query = query_gene_positions[cols[9]]
 
     lengths = [int(x) for x in cols[18].split(",") if x != ""]
-    saccer_block_starts = [int(x) for x in cols[20].split(",") if x != ""]
-    yarlip_block_starts = [int(x) for x in cols[19].split(",") if x != ""]
+    target_block_starts = [int(x) for x in cols[20].split(",") if x != ""]
+    query_block_starts = [int(x) for x in cols[19].split(",") if x != ""]
 
     # DONE: remove
-    # if saccer[1] == "-" or yarlip[1] == "-":
+    # if target[1] == "-" or query[1] == "-":
     #     continue
     
-    saccer_genome_positions = get_all_genome_positions(saccer, saccer_block_starts, lengths)
-    yarlip_genome_positions = get_all_genome_positions(yarlip, yarlip_block_starts, lengths)
+    target_genome_positions = get_all_genome_positions(target, target_block_starts, lengths)
+    query_genome_positions = get_all_genome_positions(query, query_block_starts, lengths)
 
-    if not is_ascending(saccer_genome_positions):
-        saccer_genome_positions.reverse()
-        yarlip_genome_positions.reverse()
+    if not is_ascending(target_genome_positions):
+        target_genome_positions.reverse()
+        query_genome_positions.reverse()
 
-    qstart = min(yarlip_genome_positions)
-    qend = max(yarlip_genome_positions) + 1
-    tstart = min(saccer_genome_positions)
-    tend = max(saccer_genome_positions) + 1
+    qstart = min(query_genome_positions)
+    qend = max(query_genome_positions) + 1
+    tstart = min(target_genome_positions)
+    tend = max(target_genome_positions) + 1
     
-    if not is_ascending(yarlip_genome_positions):
-        yarlip_genome_positions = [yarLip_chrom_lengths[yarlip[0]] - pos for pos in yarlip_genome_positions]
+    if not is_ascending(query_genome_positions):
+        query_genome_positions = [query_chrom_lengths[query[0]] - pos for pos in query_genome_positions]
     
 
-    genome_block_lengths, saccer_genome_block_starts, yarlip_genome_block_starts = get_blocks(saccer_genome_positions, yarlip_genome_positions)
+    genome_block_lengths, target_genome_block_starts, query_genome_block_starts = get_blocks(target_genome_positions, query_genome_positions)
 
     out_cols = []
 
@@ -141,23 +158,23 @@ while True:
     out_cols.append(str(int(cols[6]) ))
     out_cols.append(str(int(cols[7]) * 3))
 
-    out_cols.append("+" if yarlip[1] == saccer[1] else "-")
+    out_cols.append("+" if query[1] == target[1] else "-")
 
-    out_cols.append(yarlip[0])
-    out_cols.append(str(yarLip_chrom_lengths[yarlip[0]]))
+    out_cols.append(query[0])
+    out_cols.append(str(query_chrom_lengths[query[0]]))
     out_cols.append(str(qstart))
     out_cols.append(str(qend))
 
-    out_cols.append(saccer[0])
-    out_cols.append(str(sacCer_chrom_lengths[saccer[0]]))
+    out_cols.append(target[0])
+    out_cols.append(str(target_chrom_lengths[target[0]]))
     out_cols.append(str(tstart))
     out_cols.append(str(tend))
 
     out_cols.append(str(len(genome_block_lengths)))
 
     out_cols.append(",".join([str(x) for x in genome_block_lengths]) + ",")
-    out_cols.append(",".join([str(x) for x in yarlip_genome_block_starts]) + ",")
-    out_cols.append(",".join([str(x) for x in saccer_genome_block_starts]) + ",")
+    out_cols.append(",".join([str(x) for x in query_genome_block_starts]) + ",")
+    out_cols.append(",".join([str(x) for x in target_genome_block_starts]) + ",")
 
 
     print("\t".join(out_cols))
