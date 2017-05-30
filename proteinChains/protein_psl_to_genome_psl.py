@@ -1,6 +1,10 @@
 from sys import argv
 from sys import exit
 
+#load positions of genes from file 
+#and return positions as dictionary
+#where key is name of gene and 
+#value is tuple (chromosone, strand, [exon_starts, exon_ends ])
 def load_positions(filename):
     fpos = open(filename, "r")
     
@@ -21,6 +25,7 @@ def load_positions(filename):
         positions[cols[1]] = (cols[2], cols[3], exons)
     return positions
 
+#computing position in genome for 1 nucleotide
 def gene_pos_to_genome_pos(gene_info, pos):
     # DONE: - strand
     if gene_info[1] == "+":
@@ -40,6 +45,7 @@ def gene_pos_to_genome_pos(gene_info, pos):
 
     print("nieco sa dodzigalo v gene_pos_to_genome_pos")
 
+#for each protein return list of places in genome 
 def get_all_genome_positions(gene_info, starts, lengths):
     all_positions = []
     for start, length in zip(starts, lengths):
@@ -48,6 +54,7 @@ def get_all_genome_positions(gene_info, starts, lengths):
                 all_positions.append(gene_pos_to_genome_pos(gene_info, protein_pos * 3 + i))
     return all_positions
 
+#if there are continuous we connect them to one block
 def get_blocks(positions1, positions2):
     genome_positions1 = []
     genome_positions2 = []
@@ -72,6 +79,7 @@ def get_blocks(positions1, positions2):
     
     return (lengths, genome_positions1, genome_positions2)
 
+#load lengths of chromosomes from file and return them as dictionary
 def load_chrom_lengths(filename):
     flengths = open(filename, "r")
     lengths = {}
@@ -129,6 +137,7 @@ while True:
     target_genome_positions = get_all_genome_positions(target, target_block_starts, lengths)
     query_genome_positions = get_all_genome_positions(query, query_block_starts, lengths)
 
+    #target gene is on the - strand
     if not is_ascending(target_genome_positions):
         target_genome_positions.reverse()
         query_genome_positions.reverse()
@@ -138,6 +147,7 @@ while True:
     tstart = min(target_genome_positions)
     tend = max(target_genome_positions) + 1
     
+    #if query is on the oposite strand than target, have to recalculate positions
     if not is_ascending(query_genome_positions):
         query_genome_positions = [query_chrom_lengths[query[0]] - pos for pos in query_genome_positions]
     
@@ -157,7 +167,8 @@ while True:
     out_cols.append(str(int(cols[5]) * 3))
     out_cols.append(str(int(cols[6]) ))
     out_cols.append(str(int(cols[7]) * 3))
-
+    
+    #if genes are on the oposite strands, result will be "-" else "+"
     out_cols.append("+" if query[1] == target[1] else "-")
 
     out_cols.append(query[0])
