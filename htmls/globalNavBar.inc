@@ -15,6 +15,7 @@
 	<ul style="display: none; visibility: hidden;">
 	<li class="first"><a href="../cgi-bin/hgTracks?db=sacCer3&lastVirtModeType=default&lastVirtModeExtraState=&virtModeType=default&virtMode=0&nonVirtPosition=&position=chrIV%3A765966%2D775965&hgsid=194_HMz92NSPIOktaV9OnaXjBY10rH8t">S. cerevisiae</a></li>
 	<li><a href="../cgi-bin/hgTracks?db=yarLip1&lastVirtModeType=default&lastVirtModeExtraState=&virtModeType=default&virtMode=0&nonVirtPosition=&position=chrA%3A1000-2000&hgsid=194_HMz92NSPIOktaV9OnaXjBY10rH8t">Y. lipolytica</a></li>
+	<li><a href="../cgi-bin/hgTracks?db=malGlo1&lastVirtModeType=default&lastVirtModeExtraState=&virtModeType=default&virtMode=0&nonVirtPosition=&position=NW_001849855.1%3A1000-2000&hgsid=323_Cl6ljmzYCQyGUo4IMAxUzCAq2Av7">M. Globosa</a></li>		
         </ul>
 </li>
 
