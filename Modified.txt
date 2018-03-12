@@ -7,3 +7,4 @@
 /kentsrc/kent/src/hg/makeDb/trackDb/sacCer/sacCer3/trackDb.ra configs/sacCer/trackDb.ra
 /kentsrc/kent/src/hg/makeDb/trackDb/sacCer/trackDb.ra configs/trackDb.ra
 /kentsrc/kent/src/hg/makeDb/trackDb/yarLip/yarLip1/trackDb.ra configs/yarLip/trackDb.ra
+/kentsrc/trackDb/malGlo/malGlo1/trackDb.ra configs/malGlo/trackDb.ra
