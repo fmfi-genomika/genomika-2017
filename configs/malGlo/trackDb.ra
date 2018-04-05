@@ -1,0 +1,25 @@
+track gc5Base
+shortLabel GC Percent
+longLabel GC Percent in 5-Base Windows
+group map
+visibility hide
+autoScale Off
+maxHeightPixels 128:36:16
+graphTypeDefault Bar
+gridDefault OFF
+windowingFunction Mean
+color 0,0,0
+altColor 128,128,128
+viewLimits 30:70
+spanList 5
+type wig 0 100
+
+track tRNAs
+shortLabel tRNA Genes
+longLabel Transfer RNA Genes Identified with tRNAscan-SE
+group genes
+visibility hide
+color 0,20,150
+type bed 12
+nextItemButton on
+priority 10
